@@ -27,11 +27,25 @@ namespace EcomProject_JimmyRebecca.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("FirstName,LastName,Birthday,Address")] ApplicationUser au)
+        public async Task<IActionResult> Register(RegisterAccount ra)
         {
             if (ModelState.IsValid)
             {
+                ApplicationUser newUser = new ApplicationUser()
+                {
+                    FirstName = ra.FirstName,
+                    LastName = ra.LastName,
+                    AccountCreation = ra.AccountCreation,
+                    Address = ra.Address,
+                    Birthday = ra.Birthday
+                };
 
+                var result = await _userManager.CreateAsync(newUser, ra.Password);
+
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(newUser, isPersistent: false);
+                }
             }
 
             return View();
