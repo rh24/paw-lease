@@ -33,8 +33,10 @@ namespace EcomProject_JimmyRebecca.Controllers
             {
                 ApplicationUser newUser = new ApplicationUser()
                 {
+                    UserName = ra.Email,
                     FirstName = ra.FirstName,
                     LastName = ra.LastName,
+                    Email = ra.Email,
                     AccountCreation = ra.AccountCreation,
                     Address = ra.Address,
                     Birthday = ra.Birthday
