@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Data;
 
 namespace EcomProject_JimmyRebecca
 {
@@ -26,6 +28,13 @@ namespace EcomProject_JimmyRebecca
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

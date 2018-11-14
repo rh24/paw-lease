@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Models.ViewModels;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
@@ -22,6 +23,17 @@ namespace EcomProject_JimmyRebecca.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([Bind("FirstName,LastName,Birthday,Address")] ApplicationUser au)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
             return View();
         }
     }
