@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Data;
+using EcomProject_JimmyRebecca.Models.Interfaces;
+using EcomProject_JimmyRebecca.Models.Services;
 
 namespace EcomProject_JimmyRebecca
 {
@@ -38,6 +40,8 @@ namespace EcomProject_JimmyRebecca
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+
+            services.AddTransient<IProduct, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
