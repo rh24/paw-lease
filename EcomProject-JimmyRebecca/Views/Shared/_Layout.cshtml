@@ -1,2 +1,19 @@
-﻿<h1>My Layout</h1>
-@RenderBody()
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/StyleSheet.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <nav>
+        <a asp-action="../Account/Login">Log In</a>
+    </nav>
+    <main>
+        @RenderBody()
+        @RenderSection("scripts", required: false)
+    </main>
+</body>
+</html>
