@@ -20,12 +20,21 @@ namespace EcomProject_JimmyRebecca.Controllers
             _signInManager = signInManager;
         }
 
+        /// <summary>
+        /// Gets the register view
+        /// </summary>
+        /// <returns>Register view</returns>
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        /// <summary>
+        /// Register a user action
+        /// </summary>
+        /// <param name="ra">Takes in a user model to register</param>
+        /// <returns>Returns a view</returns>
         [HttpPost]
         public async Task<IActionResult> Register(RegisterAccount ra)
         {
@@ -50,6 +59,16 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
             }
 
+            return View();
+        }
+
+        /// <summary>
+        /// Login Action
+        /// </summary>
+        /// <returns>returns the view to log in</returns>
+        [HttpGet]
+        public IActionResult Login()
+        {
             return View();
         }
     }
