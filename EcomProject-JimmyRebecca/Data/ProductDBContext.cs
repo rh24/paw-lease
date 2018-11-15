@@ -89,6 +89,6 @@ namespace EcomProject_JimmyRebecca.Data
             );
         }
 
-        DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

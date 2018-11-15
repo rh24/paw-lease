@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Models.Interfaces;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ProductDBContext _context;
+        private readonly IProduct _context;
 
-        public ProductsController(ProductDBContext context)
+        public ProductsController(IProduct context)
         {
             _context = context;
         }
@@ -22,7 +23,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _context.GetProducts());
         }
 
         // GET: Products/Details/5
@@ -33,8 +34,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var product = _context.GetProduct(id);
             if (product == null)
             {
                 return NotFound();
@@ -58,8 +58,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                await _context.CreateProduct(product);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -73,7 +72,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.GetProduct(id);
             if (product == null)
             {
                 return NotFound();
@@ -97,8 +96,7 @@ namespace EcomProject_JimmyRebecca.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    await _context.UpdateProduct(product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +122,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var product = await _context.GetProduct(id);
             if (product == null)
             {
                 return NotFound();
@@ -139,15 +136,14 @@ namespace EcomProject_JimmyRebecca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            var product = await _context.GetProduct(id);
+            await _context.DeleteProduct(product);
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.ID == id);
+            return _context.GetProduct(id) != null;
         }
     }
 }

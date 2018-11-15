@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Models.Interfaces
 {
-    interface IProduct
+    public interface IProduct
     {
         // interface for products
         Task CreateProduct(Product product);
