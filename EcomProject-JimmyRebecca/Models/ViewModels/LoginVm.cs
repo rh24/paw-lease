@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Models.ViewModels
 {
-    public class LoginVm
+    public class LoginVM
     {
         // Added View Model
         [Required]
