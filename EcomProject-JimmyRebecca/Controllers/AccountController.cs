@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.ViewModels;
+using System.Security.Claims;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
@@ -54,7 +55,29 @@ namespace EcomProject_JimmyRebecca.Controllers
                 var result = await _userManager.CreateAsync(newUser, ra.Password);
 
                 if (result.Succeeded)
-                {
+                {// Custom Claim type for full name
+                    Claim fullNameClaim = new Claim("FullName", $"{newUser.FirstName} {newUser.LastName}");
+
+                    // claim type for birthday
+                    Claim birthdayClaim = new Claim(
+                        ClaimTypes.DateOfBirth,
+                        new DateTime(newUser.Birthday.Year, newUser.Birthday.Month, newUser.Birthday.Day).ToString("u"), ClaimValueTypes.DateTime);
+
+                    // claim type for email
+                    Claim emailClaim = new Claim(ClaimTypes.Email, newUser.Email, ClaimValueTypes.Email);
+
+                    // claim for  type address
+                    Claim addressClaim = new Claim(ClaimTypes.StreetAddress, newUser.Address);
+
+                    List<Claim> myclaims = new List<Claim>()
+                    {
+                        fullNameClaim,
+                        birthdayClaim,
+                        emailClaim,
+                        addressClaim
+                    };
+
+
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
             }
