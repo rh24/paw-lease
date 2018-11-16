@@ -71,5 +71,32 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             return View();
         }
+        
+        /// <summary>
+        /// Logs the user in with username and password
+        /// </summary>
+        /// <param name="lvm">The login model that has email and pass</param>
+        /// <returns>Redirected view</returns>
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, false, false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Wrong username/password");
+                }
+
+            }
+
+            return View(lvm);
+        }
+
     }
 }
