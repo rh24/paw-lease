@@ -77,6 +77,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                         addressClaim
                     };
 
+                    // adds the claims
+                    await _userManager.AddClaimsAsync(newUser, myclaims);
 
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
