@@ -124,6 +124,10 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(lvm);
         }
 
+        /// <summary>
+        /// Logs user out after form submit.
+        /// </summary>
+        /// <returns>Redirect to Home page</returns>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Logout()
