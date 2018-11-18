@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using EcomProject_JimmyRebecca.Data;
-using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
@@ -34,7 +29,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var product = _context.GetProduct(id);
+            var product = await _context.GetProduct(id);
             if (product == null)
             {
                 return NotFound();
