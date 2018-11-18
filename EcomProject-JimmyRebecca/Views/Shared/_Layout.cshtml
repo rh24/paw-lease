@@ -1,5 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity;
-@using EcomProject_JimmyRebecca.Models;
+﻿@using Microsoft.AspNetCore.Identity
+@using EcomProject_JimmyRebecca.Models
 @inject SignInManager<ApplicationUser> SignInManager
 <!DOCTYPE html>
 <html>
@@ -22,6 +22,9 @@
         }
         <a asp-action="../Products/Index">Products</a>
         <a asp-action="../Account/Register">Register</a>
+        <form asp-action="Logout" asp-controller="Account" method="post">
+            <button type="submit">Static Log out</button>
+        </form>
     </nav>
     <main>
         @RenderBody()

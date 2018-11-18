@@ -1,4 +1,14 @@
-﻿<h1>Welcome to EcomCats!</h1>
+﻿@using Microsoft.AspNetCore.Identity
+@using EcomProject_JimmyRebecca.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@if (SignInManager.IsSignedIn(User))
+{
+    <h1>Welcome back, @User.Claims.First(name => name.Type == "FullName").Value!</h1>
+}
+else
+{
+    <h1>Welcome to EcomCats!</h1>
+}
 <div class="landing-page">
     <img src="~/assets/cats/cats2.png" />
 </div>
