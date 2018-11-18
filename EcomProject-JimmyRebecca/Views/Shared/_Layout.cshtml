@@ -14,18 +14,18 @@
     <nav>
         @if (SignInManager.IsSignedIn(User))
         {
-            <a asp-action""
-               }
-               else
-               {
+            <a asp-action="../Account/Logout">(@User.Claims.First(name => name.Type == "Email").Value) Log Out</a>
+        }
+        else
+        {
             <a asp-action="../Account/Login">Log In</a>
         }
         <a asp-action="../Products/Index">Products</a>
         <a asp-action="../Account/Register">Register</a>
-        </nav>
-        <main>
-            @RenderBody()
-            @RenderSection("scripts", required: false)
-        </main>
-    </body>
+    </nav>
+    <main>
+        @RenderBody()
+        @RenderSection("scripts", required: false)
+    </main>
+</body>
 </html>
