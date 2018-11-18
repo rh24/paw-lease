@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using BlogPostClassDemo.Models
+@inject SignInManager<ApplicationUser> SignInManager
+<!DOCTYPE html>
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
@@ -9,13 +12,20 @@
 </head>
 <body>
     <nav>
-        <a asp-action="../Account/Login">Log In</a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a asp-action""
+               }
+               else
+               {
+            <a asp-action="../Account/Login">Log In</a>
+        }
         <a asp-action="../Products/Index">Products</a>
         <a asp-action="../Account/Register">Register</a>
-    </nav>
-    <main>
-        @RenderBody()
-        @RenderSection("scripts", required: false)
-    </main>
-</body>
+        </nav>
+        <main>
+            @RenderBody()
+            @RenderSection("scripts", required: false)
+        </main>
+    </body>
 </html>
