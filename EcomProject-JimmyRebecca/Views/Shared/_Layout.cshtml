@@ -1,7 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using EcomProject_JimmyRebecca.Models
+@inject SignInManager<ApplicationUser> SignInManager
+<!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="~/StyleSheet.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/css/StyleSheet.css" rel="stylesheet" />
@@ -10,9 +12,19 @@
 </head>
 <body>
     <nav>
-        <a asp-action="../Account/Login">Log In</a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a asp-action="../Account/Logout">(@User.Claims.First(name => name.Type == "Email").Value) Log Out</a>
+        }
+        else
+        {
+            <a asp-action="../Account/Login">Log In</a>
+        }
         <a asp-action="../Products/Index">Products</a>
         <a asp-action="../Account/Register">Register</a>
+        <form asp-action="Logout" asp-controller="Account" method="post">
+            <button type="submit">Static Log out</button>
+        </form>
     </nav>
     <main>
         @RenderBody()

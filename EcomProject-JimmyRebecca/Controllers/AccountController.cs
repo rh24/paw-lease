@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private UserManager<ApplicationUser> _userManager;
@@ -84,7 +85,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
             }
 
-            return View();
+            return RedirectToAction("Index", "Products");
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             return View();
         }
-        
+
         /// <summary>
         /// Logs the user in with username and password
         /// </summary>
@@ -123,5 +124,17 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(lvm);
         }
 
+        /// <summary>
+        /// Logs user out after form submit.
+        /// </summary>
+        /// <returns>Redirect to Home page</returns>
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
+
 }
