@@ -14,7 +14,7 @@
     <nav>
         @if (SignInManager.IsSignedIn(User))
         {
-            <a asp-action="../Account/Logout">(@User.Claims.First(name => name.Type == "FullName").Value) Log Out</a>
+            <a asp-action="../Account/Logout">Hi, @User.Claims.First(name => name.Type == "FullName").Value!</a>
         }
         else
         {

@@ -1,4 +1,6 @@
 ﻿body {
+    background-image: url(../assets/cats/cats2.png);
+    background-size: cover;
 }
 
 main {

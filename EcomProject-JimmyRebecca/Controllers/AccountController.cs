@@ -24,11 +24,27 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// Gets the register view
         /// </summary>
         /// <returns>Register view</returns>
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult Register()
+        //{
+        //    if (_signInManager.IsSignedIn(HttpContext.User))
+        //    {
+        //        var existingUser = HttpContext.User;
+
+        //        ApplicationUser newUser = new ApplicationUser()
+        //        {
+        //            UserName = existingUser.Email,
+        //            FirstName = existingUser.FirstName,
+        //            LastName = existingUser.LastName,
+        //            Email = existingUser.Email,
+        //            AccountCreation = existingUser.AccountCreation,
+        //            Address = existingUser.Address,
+        //            Birthday = existingUser.Birthday
+        //        };
+        //    }
+
+        //    return View();
+        //}
 
         /// <summary>
         /// Register a user action
