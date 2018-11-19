@@ -11,21 +11,7 @@
     <title>@ViewBag.Title</title>
 </head>
 <body class="landing-page">
-    <nav>
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <a asp-action="../Account/Logout">Hi, @User.Claims.First(name => name.Type == "FullName").Value!</a>
-        }
-        else
-        {
-            <a asp-action="../Account/Login">You're not logged in</a>
-        }
-        <a asp-action="../Products/Index">Products</a>
-        <a asp-action="../Account/Register">Register</a>
-        <form asp-action="Logout" asp-controller="Account" method="post">
-            <button type="submit">Static Log out</button>
-        </form>
-    </nav>
+    @{ await Html.RenderPartialAsync("_NavBar"); }
     <main>
         @RenderBody()
         @RenderSection("scripts", required: false)
