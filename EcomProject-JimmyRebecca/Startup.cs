@@ -36,7 +36,7 @@ namespace EcomProject_JimmyRebecca
             options.UseSqlServer(Configuration.GetConnectionString("ProdDB")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("ProdIdentityDB")));
 
             services.AddAuthorization(options =>
             {
