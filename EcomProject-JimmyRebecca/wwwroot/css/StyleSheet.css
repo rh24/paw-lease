@@ -1,9 +1,14 @@
 ﻿body {
-    background-image: url(../assets/cats/cats2.png);
-    background-size: cover;
+    font-family: 'Poppins', sans-serif;
 }
 
 main {
     max-width: 100%;
     max-height: 100%;
+}
+
+/* Body styles for landing page layout _HomeLayout */
+body.landing-page {
+    background-image: url(../assets/cats/cats2.png);
+    background-size: cover;
 }
