@@ -67,7 +67,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                     Email = ra.Email,
                     AccountCreation = ra.AccountCreation,
                     Address = ra.Address,
-                    Birthday = ra.Birthday
+                    Birthday = ra.Birthday,
+                    LovesCats = ra.LovesCats
                 };
 
                 var result = await _userManager.CreateAsync(newUser, ra.Password);

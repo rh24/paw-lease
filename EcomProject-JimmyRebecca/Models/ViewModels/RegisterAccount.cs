@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace EcomProject_JimmyRebecca.Models.ViewModels
@@ -28,6 +25,9 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
 
         [Required]
         public string Address { get; set; }
+
+        [Required]
+        public bool LovesCats { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
