@@ -38,6 +38,11 @@ namespace EcomProject_JimmyRebecca
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CatLover", policy => policy.Requirements.Add(new LovesCatsRequirement(true)));
+            });
+
             services.AddTransient<IProduct, ProductService>();
             services.AddScoped<IAuthorizationHandler, LovesCatsHandler>();
         }
