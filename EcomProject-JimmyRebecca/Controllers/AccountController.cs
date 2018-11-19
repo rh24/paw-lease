@@ -77,6 +77,9 @@ namespace EcomProject_JimmyRebecca.Controllers
                 {// Custom Claim type for full name
                     Claim fullNameClaim = new Claim("FullName", $"{newUser.FirstName} {newUser.LastName}");
 
+                    // Custom claim type for loves cats
+                    Claim lovesCatsClaim = new Claim("LovesCats", newUser.LovesCats.ToString());
+
                     // claim type for birthday
                     Claim birthdayClaim = new Claim(
                         ClaimTypes.DateOfBirth,
