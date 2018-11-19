@@ -27,6 +27,7 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
         public string Address { get; set; }
 
         [Required]
+        [Display(Name = "Do you love cats?")]
         public bool LovesCats { get; set; }
 
         [Required]
