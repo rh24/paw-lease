@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Models
 {
@@ -13,5 +10,6 @@ namespace EcomProject_JimmyRebecca.Models
         public DateTime AccountCreation { get; set; }
         public DateTime Birthday { get; set; }
         public string Address { get; set; }
+        public bool LovesCats { get; set; }
     }
 }

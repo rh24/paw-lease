@@ -1,11 +1,8 @@
 ﻿@model EcomProject_JimmyRebecca.Models.ViewModels.RegisterAccount
-
 @{
     ViewData["Title"] = "Register";
 }
-
 <h2>Register</h2>
-
 <h4>RegisterAccount</h4>
 <hr />
 <div class="row">
@@ -37,6 +34,11 @@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
+            <div class="checkbox">
+                <label asp-for="LovesCats" class="control-label"></label>
+                <input asp-for="LovesCats" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
@@ -53,11 +55,9 @@
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

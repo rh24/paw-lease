@@ -67,7 +67,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                     Email = ra.Email,
                     AccountCreation = ra.AccountCreation,
                     Address = ra.Address,
-                    Birthday = ra.Birthday
+                    Birthday = ra.Birthday,
+                    LovesCats = ra.LovesCats
                 };
 
                 var result = await _userManager.CreateAsync(newUser, ra.Password);
@@ -75,6 +76,9 @@ namespace EcomProject_JimmyRebecca.Controllers
                 if (result.Succeeded)
                 {// Custom Claim type for full name
                     Claim fullNameClaim = new Claim("FullName", $"{newUser.FirstName} {newUser.LastName}");
+
+                    // Custom claim type for loves cats
+                    Claim lovesCatsClaim = new Claim("LovesCats", newUser.LovesCats.ToString().ToLower());
 
                     // claim type for birthday
                     Claim birthdayClaim = new Claim(
@@ -92,7 +96,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                         fullNameClaim,
                         birthdayClaim,
                         emailClaim,
-                        addressClaim
+                        addressClaim,
+                        lovesCatsClaim
                     };
 
                     // adds the claims
