@@ -1,7 +1,9 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Models.Handlers;
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using EcomProject_JimmyRebecca.Models.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -37,6 +39,7 @@ namespace EcomProject_JimmyRebecca
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
             services.AddTransient<IProduct, ProductService>();
+            services.AddScoped<IAuthorizationHandler, LovesCatsHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
