@@ -4,7 +4,7 @@
 <nav>
     @if (SignInManager.IsSignedIn(User))
     {
-        <a asp-action="../Account/Logout">Hi, @User.Claims.First(name => name.Type == "FullName").Value!</a>
+        <a asp-action="../Account/Register">Hi, @User.Claims.First(name => name.Type == "FullName").Value!</a>
     }
     else
     {
