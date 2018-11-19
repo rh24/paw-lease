@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -21,12 +22,30 @@ namespace EcomProject_JimmyRebecca.Controllers
         }
 
         /// <summary>
-        /// Gets the register view
+        /// Gets the register view if no user is currently signed in. Pulls up the user registered account info if user is signed in. This is to add future ability to PUT registration information in case user wants to change address, email, birthday, etc.
         /// </summary>
         /// <returns>Register view</returns>
         [HttpGet]
         public IActionResult Register()
         {
+            if (_signInManager.IsSignedIn(HttpContext.User))
+            {
+                var existingUser = HttpContext.User.Claims;
+                var fullNameClaim = existingUser.First(name => name.Type == "FullName").Value;
+                string[] fullName = fullNameClaim.Split(' ');
+
+                RegisterAccount eu = new RegisterAccount()
+                {
+                    FirstName = fullName[0],
+                    LastName = fullName[1],
+                    Email = existingUser.First(name => name.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").Value,
+                    Address = existingUser.First(name => name.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/streetaddress").Value,
+                    Birthday = Convert.ToDateTime(existingUser.First(name => name.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth").Value)
+                };
+
+                return View(eu);
+            }
+
             return View();
         }
 
