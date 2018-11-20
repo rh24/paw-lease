@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<EcomProject_JimmyRebecca.Models.Product>
+@using Microsoft.AspNetCore.Identity
+@using EcomProject_JimmyRebecca.Models
+@inject UserManager<ApplicationUser> UserManager
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -37,3 +40,6 @@
         }
     </tbody>
 </table>
+<div class="cart">
+    @await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
+</div>

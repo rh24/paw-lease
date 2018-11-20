@@ -1,4 +1,5 @@
 ﻿using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Models.Interfaces;
 using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ namespace EcomProject_JimmyRebecca.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private readonly ICart _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         /// <summary>
@@ -106,6 +109,12 @@ namespace EcomProject_JimmyRebecca.Controllers
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
             }
+
+            // create a cart for the user
+            var user = await _userManager.GetUserAsync(User);
+            var cart = new Cart();
+            cart.User = user;
+            await _context.CreateCart(cart);
 
             return RedirectToAction("Index", "Products");
         }

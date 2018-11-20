@@ -26,12 +26,17 @@ namespace EcomProject_JimmyRebecca.Components
         /// <returns>View that calls this method</returns>
         public async Task<IViewComponentResult> InvokeAsync(string userID)
         {
-            var cart = await _context.Carts
-                .Include(c => c.LineItems)
-                .Include(c => c.User)
-                .Where(c => c.User.ID == userID && !c.OrderFulfilled).ToListAsync();
+            if (userID != null)
+            {
+                var cart = await _context.Carts
+                    .Include(c => c.LineItems)
+                    .Include(c => c.User)
+                    .Where(c => c.User.ID == userID && !c.OrderFulfilled).ToListAsync();
 
-            return View(cart);
+                return View(cart);
+            }
+
+            return View();
         }
     }
 }
