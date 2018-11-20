@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using EcomProject_JimmyRebecca.Models
 @inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -40,6 +41,9 @@
         }
     </tbody>
 </table>
-<div class="cart">
-    @await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
-</div>
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="cart">
+        @await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
+    </div>
+}

@@ -103,20 +103,20 @@ namespace EcomProject_JimmyRebecca.Controllers
                         lovesCatsClaim
                     };
 
+                    //// create a cart for the user
+                    //var cart = new Cart
+                    //{
+                    //    User = newUser
+                    //};
+                    //_context.CreateCart(cart);
+
                     // adds the claims
                     await _userManager.AddClaimsAsync(newUser, myclaims);
 
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
             }
-
-            // create a cart for the user
-            var user = await _userManager.GetUserAsync(User);
-            var cart = new Cart();
-            cart.User = user;
-            await _context.CreateCart(cart);
-
-            return RedirectToAction("Index", "Products");
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Products");
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>
@@ -235,6 +235,13 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpGet]
+        public IActionResult ForceLogout()
+        {
+            return RedirectToAction("Logout");
         }
     }
 
