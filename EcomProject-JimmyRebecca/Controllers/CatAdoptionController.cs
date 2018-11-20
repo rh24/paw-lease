@@ -10,6 +10,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// This page will show all the cats up for adoption.
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
