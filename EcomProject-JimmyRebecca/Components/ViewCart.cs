@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Components
 {
-    public class ViewBasket : ViewComponent
+    public class ViewCart : ViewComponent
     {
         private readonly ProductDBContext _context;
 
-        public ViewBasket(ProductDBContext context)
+        public ViewCart(ProductDBContext context)
         {
             _context = context;
         }
