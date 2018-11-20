@@ -22,7 +22,7 @@
             @Html.DisplayFor(model => model.SuggestedDonation)
         </dd>
     </dl>
-    @if (!Model.IsCat)
+    @if (Model.IsCat)
     {
         <a asp-action="Checkout" asp-controller="CatAdoption" asp-route-id="@Model.ID">Adopt this cat!</a>
     }
