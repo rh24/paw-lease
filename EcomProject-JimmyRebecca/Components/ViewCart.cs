@@ -20,16 +20,18 @@ namespace EcomProject_JimmyRebecca.Components
         }
 
         /// <summary>
-        /// Method to query the db context for LineItem objects where the cart ID and Product ID is equal to the values passed in. The arguments will be provided by the view that invokes this method.
+        /// Method to query the db context for cart that belongs to current signed in user where cart order is unfulfilled.
         /// </summary>
-        /// <param name="cartID">Cart ID</param>
-        /// <param name="productID">Product ID</param>
+        /// <param name="userID">Current user ID</param>
         /// <returns>View that calls this method</returns>
-        public async Task<IViewComponentResult> InvokeAsync(int cartID, int productID)
+        public async Task<IViewComponentResult> InvokeAsync(string userID)
         {
-            var lineItems = await _context.LineItems.Where(li => li.Product.ID == productID && li.Cart.ID == cartID).ToListAsync();
+            var cart = await _context.Carts
+                .Include(c => c.LineItems)
+                .Include(c => c.User)
+                .Where(c => c.User.ID == userID && !c.OrderFulfilled).ToListAsync();
 
-            return View(lineItems);
+            return View(cart);
         }
     }
 }

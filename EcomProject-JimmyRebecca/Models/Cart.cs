@@ -6,6 +6,7 @@ namespace EcomProject_JimmyRebecca.Models
     {
         // Primary key
         public int ID { get; set; }
+        public bool OrderFulfilled { get; set; }
 
         // Navigation props:
         public ICollection<LineItem> LineItems { get; set; }
