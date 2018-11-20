@@ -7,7 +7,7 @@ namespace EcomProject_JimmyRebecca.Models.Interfaces
     {
         // CRUD operations
         // interface for LineItem
-        Task CreateLineItemAsync(LineItem product);
+        Task CreateLineItem(LineItem product);
         Task UpdateLineItem(LineItem product);
         Task DeleteLineItem(LineItem product);
         Task<LineItem> GetLineItem(int? id);

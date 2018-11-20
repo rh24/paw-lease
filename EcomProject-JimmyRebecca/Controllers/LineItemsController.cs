@@ -1,5 +1,5 @@
-﻿using EcomProject_JimmyRebecca.Data;
-using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +10,9 @@ namespace EcomProject_JimmyRebecca.Controllers
 {
     public class LineItemsController : Controller
     {
-        private readonly ProductDBContext _context;
+        private readonly ILineItem _context;
 
-        public LineItemsController(ProductDBContext context)
+        public LineItemsController(ILineItem context)
         {
             _context = context;
         }
@@ -20,8 +20,8 @@ namespace EcomProject_JimmyRebecca.Controllers
         // GET: LineItems
         public async Task<IActionResult> Index()
         {
-            var productDBContext = _context.LineItems.Include(l => l.Cart).Include(l => l.Product);
-            return View(await productDBContext.ToListAsync());
+            var lineItems = await _context.GetLineItems();
+            return View(lineItems);
         }
 
         // GET: LineItems/Details/5
@@ -32,10 +32,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _context.LineItems
-                .Include(l => l.Cart)
-                .Include(l => l.Product)
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var lineItem = await _context.GetLineItem(id);
             if (lineItem == null)
             {
                 return NotFound();
@@ -47,8 +44,8 @@ namespace EcomProject_JimmyRebecca.Controllers
         // GET: LineItems/Create
         public IActionResult Create()
         {
-            ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID");
-            ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName");
+            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID");
+            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName");
             return View();
         }
 
@@ -59,12 +56,12 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(lineItem);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _context.CreateLineItem(lineItem);
+                return RedirectToAction("Index", "Products");
             }
-            ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
+            //ViewData["CartID"] = new SelectList(_context., "ID", "ID", lineItem.CartID);
+            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
+
             return View(lineItem);
         }
 

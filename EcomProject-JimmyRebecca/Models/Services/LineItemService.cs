@@ -15,7 +15,7 @@ namespace EcomProject_JimmyRebecca.Models.Services
             _context = context;
         }
 
-        public async Task CreateLineItemAsync(LineItem lineitem)
+        public async Task CreateLineItem(LineItem lineitem)
         {
             _context.LineItems.Add(lineitem);
             await _context.SaveChangesAsync();
