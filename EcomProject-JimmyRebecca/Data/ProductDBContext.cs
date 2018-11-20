@@ -96,5 +96,7 @@ namespace EcomProject_JimmyRebecca.Data
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<LineItem> LineItems { get; set; }
     }
 }
