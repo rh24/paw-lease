@@ -15,12 +15,12 @@ namespace EcomProject_JimmyRebecca.Models.Services
             _context = context;
         }
 
-        public Task CreateLineItem(LineItem product)
+        public Task CreateLineItem(LineItem lineitem)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteLineItem(LineItem product)
+        public Task DeleteLineItem(LineItem lineitem)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +35,7 @@ namespace EcomProject_JimmyRebecca.Models.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateLineItem(LineItem product)
+        public Task UpdateLineItem(LineItem lineitem)
         {
             throw new NotImplementedException();
         }

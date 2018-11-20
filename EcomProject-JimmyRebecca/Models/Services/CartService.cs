@@ -1,6 +1,6 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models.Interfaces;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,29 +15,32 @@ namespace EcomProject_JimmyRebecca.Models.Services
             _context = context;
         }
 
-        public Task CreateCart(Cart product)
+        public async Task CreateCart(Cart cart)
         {
-            throw new NotImplementedException();
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteCart(Cart product)
+        public async Task DeleteCart(Cart cart)
         {
-            throw new NotImplementedException();
+            _context.Carts.Remove(cart);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Cart> GetCart(int? id)
+        public async Task<Cart> GetCart(int? id)
         {
-            throw new NotImplementedException();
+            return await _context.Carts.FirstOrDefaultAsync(c => c.ID == id);
         }
 
-        public Task<IEnumerable<Cart>> GetCarts()
+        public async Task<IEnumerable<Cart>> GetCarts()
         {
-            throw new NotImplementedException();
+            return await _context.Carts.ToListAsync();
         }
 
-        public Task UpdateCart(Cart product)
+        public async Task UpdateCart(Cart cart)
         {
-            throw new NotImplementedException();
+            _context.Update(cart);
+            await _context.SaveChangesAsync();
         }
     }
 }
