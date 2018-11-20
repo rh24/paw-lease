@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 
 namespace EcomProject_JimmyRebecca.Models
 {
@@ -11,5 +12,8 @@ namespace EcomProject_JimmyRebecca.Models
         public DateTime Birthday { get; set; }
         public string Address { get; set; }
         public bool LovesCats { get; set; }
+
+        // Navigation props:
+        public ICollection<Cart> Carts { get; set; }
     }
 }
