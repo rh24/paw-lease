@@ -1,6 +1,6 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models.Interfaces;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,29 +15,32 @@ namespace EcomProject_JimmyRebecca.Models.Services
             _context = context;
         }
 
-        public Task CreateLineItem(LineItem lineitem)
+        public async Task CreateLineItemAsync(LineItem lineitem)
         {
-            throw new NotImplementedException();
+            _context.LineItems.Add(lineitem);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteLineItem(LineItem lineitem)
+        public async Task DeleteLineItem(LineItem lineitem)
         {
-            throw new NotImplementedException();
+            _context.LineItems.Remove(lineitem);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<LineItem> GetLineItem(int? id)
+        public async Task<LineItem> GetLineItem(int? id)
         {
-            throw new NotImplementedException();
+            return await _context.LineItems.FirstOrDefaultAsync(li => li.ID == id);
         }
 
-        public Task<IEnumerable<LineItem>> GetLineItems()
+        public async Task<IEnumerable<LineItem>> GetLineItems()
         {
-            throw new NotImplementedException();
+            return await _context.LineItems.ToListAsync();
         }
 
-        public Task UpdateLineItem(LineItem lineitem)
+        public async Task UpdateLineItem(LineItem lineitem)
         {
-            throw new NotImplementedException();
+            _context.LineItems.Update(lineitem);
+            await _context.SaveChangesAsync();
         }
     }
 }
