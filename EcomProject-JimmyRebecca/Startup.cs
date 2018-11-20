@@ -44,6 +44,8 @@ namespace EcomProject_JimmyRebecca
             });
 
             services.AddTransient<IProduct, ProductService>();
+            services.AddTransient<ICart, CartService>();
+            services.AddTransient<ILineItem, LineItemService>();
             services.AddScoped<IAuthorizationHandler, LovesCatsHandler>();
         }
 

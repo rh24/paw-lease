@@ -1,5 +1,5 @@
-﻿using EcomProject_JimmyRebecca.Data;
-using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -9,9 +9,9 @@ namespace EcomProject_JimmyRebecca.Controllers
 {
     public class CartsController : Controller
     {
-        private readonly ProductDBContext _context;
+        private readonly ICart _context;
 
-        public CartsController(ProductDBContext context)
+        public CartsController(ICart context)
         {
             _context = context;
         }
@@ -43,7 +43,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         // GET: Carts/Create
         public IActionResult Create()
         {
-            return View();
+            _context.Carts.CreateCart
         }
 
         // POST: Carts/Create

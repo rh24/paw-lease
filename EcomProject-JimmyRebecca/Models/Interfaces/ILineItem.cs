@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Models.Interfaces
 {
-    interface ILineItem
+    public interface ILineItem
     {
         // CRUD operations
         // interface for LineItem

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Models.Interfaces
 {
-    interface ICart
+    public interface ICart
     {
         // CRUD operations
         // interface for cart
