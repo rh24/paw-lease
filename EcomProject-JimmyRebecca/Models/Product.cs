@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EcomProject_JimmyRebecca.Models
 {
@@ -13,5 +9,6 @@ namespace EcomProject_JimmyRebecca.Models
         public string ProductName { get; set; }
         public string Description { get; set; }
         public decimal SuggestedDonation { get; set; }
+        public bool IsCat { get; set; }
     }
 }
