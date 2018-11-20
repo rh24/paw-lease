@@ -1,9 +1,8 @@
 ﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
@@ -57,7 +56,7 @@ namespace EcomProject_JimmyRebecca.Controllers
             if (ModelState.IsValid)
             {
                 await _context.CreateLineItem(lineItem);
-                return RedirectToAction("Index", "Products");
+                return RedirectToAction(nameof(Index));
             }
             //ViewData["CartID"] = new SelectList(_context., "ID", "ID", lineItem.CartID);
             //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
@@ -73,13 +72,13 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _context.LineItems.FindAsync(id);
+            var lineItem = await _context.GetLineItem(id);
             if (lineItem == null)
             {
                 return NotFound();
             }
-            ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
+            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
+            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
             return View(lineItem);
         }
 
@@ -97,8 +96,7 @@ namespace EcomProject_JimmyRebecca.Controllers
             {
                 try
                 {
-                    _context.Update(lineItem);
-                    await _context.SaveChangesAsync();
+                    await _context.UpdateLineItem(lineItem);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -113,9 +111,14 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
+            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
+            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
             return View(lineItem);
+        }
+
+        private bool LineItemExists(int iD)
+        {
+            throw new NotImplementedException();
         }
 
         // GET: LineItems/Delete/5
@@ -126,10 +129,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _context.LineItems
-                .Include(l => l.Cart)
-                .Include(l => l.Product)
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var lineItem = await _context.GetLineItem(id);
+
             if (lineItem == null)
             {
                 return NotFound();
@@ -143,15 +144,19 @@ namespace EcomProject_JimmyRebecca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var lineItem = await _context.LineItems.FindAsync(id);
-            _context.LineItems.Remove(lineItem);
-            await _context.SaveChangesAsync();
+            var lineItem = await _context.GetLineItem(id);
+            await _context.DeleteLineItem(lineItem);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LineItemExists(int id)
+        private async Task<IActionResult> CheckIfQuantityIsZero(LineItem lineItem)
         {
-            return _context.LineItems.Any(e => e.ID == id);
+            if (lineItem.Quantity == 0)
+            {
+                await _context.DeleteLineItem(lineItem);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
