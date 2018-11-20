@@ -50,14 +50,71 @@ namespace EcomProject_JimmyRebecca.Controllers
         }
 
         /// <summary>
-        /// Register a user action
+        /// Register a user action. This method updates a user's account information if a user is already signed in, or it creates a new user if a user is not already signed in.
         /// </summary>
         /// <param name="ra">Takes in a user model to register</param>
         /// <returns>Returns a view</returns>
         [HttpPost]
         public async Task<IActionResult> Register(RegisterAccount ra)
         {
-            if (ModelState.IsValid)
+            if (_signInManager.IsSignedIn(User))
+            {
+                // Get signed in user
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+
+                // Remove all associated claims from current user's identity
+                await _userManager.RemoveClaimsAsync(user, HttpContext.User.Claims);
+
+                // Add newly updated claims and sign user back in
+                if (ModelState.IsValid)
+                {
+                    user.UserName = ra.Email;
+                    user.FirstName = ra.FirstName;
+                    user.LastName = ra.LastName;
+                    user.Email = ra.Email;
+                    user.Address = ra.Address;
+                    user.Birthday = ra.Birthday;
+                    user.LovesCats = ra.LovesCats;
+
+                    string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    await _userManager.ResetPasswordAsync(user, resetToken, ra.Password);
+                    var updatedResult = await _userManager.UpdateAsync(user);
+
+                    if (updatedResult.Succeeded)
+                    {// Custom Claim type for full name
+                        Claim fullNameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
+
+                        // Custom claim type for loves cats
+                        Claim lovesCatsClaim = new Claim("LovesCats", user.LovesCats.ToString().ToLower());
+
+                        // claim type for birthday
+                        Claim birthdayClaim = new Claim(
+                            ClaimTypes.DateOfBirth,
+                            new DateTime(user.Birthday.Year, user.Birthday.Month, user.Birthday.Day).ToString("u"), ClaimValueTypes.DateTime);
+
+                        // claim type for email
+                        Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
+
+                        // claim for  type address
+                        Claim addressClaim = new Claim(ClaimTypes.StreetAddress, user.Address);
+
+                        List<Claim> myclaims = new List<Claim>()
+                        {
+                            fullNameClaim,
+                            birthdayClaim,
+                            emailClaim,
+                            addressClaim,
+                            lovesCatsClaim
+                        };
+
+                        // adds the claims
+                        await _userManager.AddClaimsAsync(user, myclaims);
+
+                        await _signInManager.RefreshSignInAsync(user);
+                    }
+                }
+            }
+            else if (ModelState.IsValid && !_signInManager.IsSignedIn(User))
             {
                 ApplicationUser newUser = new ApplicationUser()
                 {
