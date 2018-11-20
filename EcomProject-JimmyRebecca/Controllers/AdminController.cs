@@ -1,11 +1,13 @@
 ﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class AdminController : Controller
     {
         private readonly IProduct _context;
