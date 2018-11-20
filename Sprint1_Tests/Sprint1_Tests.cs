@@ -7,7 +7,7 @@ namespace Sprint1_Tests
     /// <summary>
     /// Test getters and setters for all models
     /// </summary>
-    public class UnitTest1
+    public class Sprint1_Tests
     {
         /// <summary>
         /// Test getters on ApplicationUser model
@@ -57,6 +57,52 @@ namespace Sprint1_Tests
             Assert.Equal("2 Dog St", au.Address);
             Assert.Equal("10/1/1990 12:00:00 AM", au.Birthday.ToString());
             Assert.False(au.LovesCats);
+        }
+
+        /// <summary>
+        /// Tests the products get
+        /// </summary>
+        /// <param name="name">the name of the product</param>
+        [Theory]
+        [InlineData("Tabby")]
+        [InlineData("Bengal")]
+        [InlineData("Black Cat")]
+        public void ProductGetTest(string name)
+        {
+            Product prod = new Product()
+            {
+                ID = 1,
+                ProductName = name,
+                Description = "cat",
+                SuggestedDonation = 900,
+                IsCat = true
+            };
+
+            Assert.True(prod.ProductName == name);
+        }
+
+        /// <summary>
+        /// Tests the product set
+        /// </summary>
+        /// <param name="name">the name of the cat</param>
+        [Theory]
+        [InlineData("Tabby")]
+        [InlineData("Bengal")]
+        [InlineData("Black Cat")]
+        public void ProductSetTest(string name)
+        {
+            Product prod = new Product()
+            {
+                ID = 1,
+                ProductName = "kitty",
+                Description = "cat",
+                SuggestedDonation = 900,
+                IsCat = true
+            };
+
+            prod.ProductName = name;
+
+            Assert.True(prod.ProductName == name);
         }
     }
 }
