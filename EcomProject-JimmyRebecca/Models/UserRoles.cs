@@ -11,4 +11,3 @@ namespace EcomProject_JimmyRebecca.Models
         public const string Admin = "Administrator";
     }
 }
-}
