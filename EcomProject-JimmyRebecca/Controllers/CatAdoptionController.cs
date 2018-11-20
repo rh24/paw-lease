@@ -20,7 +20,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// This will be the action that gets the checkout page for adopting a cat.
         /// </summary>
         /// <returns></returns>
-        public IActionResult CheckoutPage()
+        public IActionResult Checkout()
         {
             return View();
         }
