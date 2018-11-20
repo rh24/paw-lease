@@ -1,5 +1,4 @@
-﻿using EcomProject_JimmyRebecca.Data;
-using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +14,11 @@ namespace EcomProject_JimmyRebecca.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        private ApplicationDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
         /// <summary>
@@ -119,8 +116,6 @@ namespace EcomProject_JimmyRebecca.Controllers
             }
             else if (ModelState.IsValid && !_signInManager.IsSignedIn(User))
             {
-                CheckUserRolesExist();
-
                 ApplicationUser newUser = new ApplicationUser()
                 {
                     UserName = ra.Email,
@@ -161,17 +156,6 @@ namespace EcomProject_JimmyRebecca.Controllers
                         addressClaim,
                         lovesCatsClaim
                     };
-
-                    // make admins if emails are these
-                    if (ra.Email.ToLower() == "amanda@codefellows.com" || ra.Email.ToLower() == "jimmyn123@gmail.com" || ra.Email.ToLower() == "rebeccayhong@gmail.com")
-                    {
-
-
-                        await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
-
-                    }
-
-                    await _userManager.AddToRoleAsync(newUser, UserRoles.Member);
 
                     // adds the claims
                     await _userManager.AddClaimsAsync(newUser, myclaims);
@@ -228,27 +212,6 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-        }
-
-        /// <summary>
-        /// Checks if the roles exist
-        /// </summary>
-        public void CheckUserRolesExist()
-        {
-            if (!_context.Roles.Any())
-            {
-                List<IdentityRole> Roles = new List<IdentityRole>
-                {
-                    new IdentityRole{Name = UserRoles.Admin, NormalizedName=UserRoles.Admin.ToString(), ConcurrencyStamp = Guid.NewGuid().ToString()},
-                    new IdentityRole{Name = UserRoles.Member, NormalizedName=UserRoles.Member.ToString(), ConcurrencyStamp = Guid.NewGuid().ToString()},
-                };
-
-                foreach (var role in Roles)
-                {
-                    _context.Roles.Add(role);
-                    _context.SaveChanges();
-                }
-            }
         }
     }
 
