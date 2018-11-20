@@ -2,6 +2,7 @@
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
@@ -106,6 +107,11 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return RedirectToAction("Index", "Products");
             }
             return View(cart);
+        }
+
+        private bool CartExists(int iD)
+        {
+            throw new NotImplementedException();
         }
 
         // GET: Carts/Delete/5
