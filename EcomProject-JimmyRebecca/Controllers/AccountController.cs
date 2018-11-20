@@ -129,6 +129,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 // Add newly updated claims and sign user back in
                 if (ModelState.IsValid)
                 {
+                    // update user's info
                     user.UserName = ra.Email;
                     user.FirstName = ra.FirstName;
                     user.LastName = ra.LastName;
@@ -137,6 +138,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                     user.Birthday = ra.Birthday;
                     user.LovesCats = ra.LovesCats;
 
+                    // Reset password of user
                     string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
                     await _userManager.ResetPasswordAsync(user, resetToken, ra.Password);
                     var updatedResult = await _userManager.UpdateAsync(user);
