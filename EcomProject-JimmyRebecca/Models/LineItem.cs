@@ -19,8 +19,10 @@ namespace EcomProject_JimmyRebecca.Models
 
     public enum Quantity
     {
+        [Display(Name = "0")]
+        zero,
         [Display(Name = "1")]
-        one = 1,
+        one,
         [Display(Name = "2")]
         two,
         [Display(Name = "3")]
