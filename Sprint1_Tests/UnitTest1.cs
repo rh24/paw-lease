@@ -9,6 +9,9 @@ namespace Sprint1_Tests
     /// </summary>
     public class UnitTest1
     {
+        /// <summary>
+        /// Test getters on ApplicationUser model
+        /// </summary>
         [Fact]
         public void GetApplicationUser()
         {
@@ -28,6 +31,9 @@ namespace Sprint1_Tests
             Assert.True(au.LovesCats);
         }
 
+        /// <summary>
+        /// Test setters on ApplicationUser model
+        /// </summary>
         [Fact]
         public void SetApplicationUser()
         {
