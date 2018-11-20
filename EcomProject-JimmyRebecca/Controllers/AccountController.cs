@@ -111,7 +111,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         }
 
         /// <summary>
-        /// This method updates a user's account information if a user is already signed in.
+        /// This method updates a user's account information if a user is already signed in
         /// </summary>
         /// <param name="ra">Account info to update current user</param>
         /// <returns></returns>
