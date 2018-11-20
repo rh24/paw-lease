@@ -2,7 +2,6 @@
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
@@ -19,7 +18,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         // GET: Carts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Carts.ToListAsync());
+            return View(await _context.GetCarts());
         }
 
         // GET: Carts/Details/5
@@ -30,8 +29,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var cart = await _context.Carts
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var cart = await _context.GetCart(id);
+
             if (cart == null)
             {
                 return NotFound();
@@ -43,7 +42,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         // GET: Carts/Create
         public IActionResult Create()
         {
-            _context.Carts.CreateCart
+            return View();
         }
 
         // POST: Carts/Create
@@ -53,10 +52,10 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _context.CreateCart(cart);
+                return RedirectToAction("Index", "Products");
             }
+
             return View(cart);
         }
 
@@ -68,7 +67,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var cart = await _context.Carts.FindAsync(id);
+            var cart = await _context.GetCart(id);
+
             if (cart == null)
             {
                 return NotFound();
@@ -90,8 +90,7 @@ namespace EcomProject_JimmyRebecca.Controllers
             {
                 try
                 {
-                    _context.Update(cart);
-                    await _context.SaveChangesAsync();
+                    await _context.UpdateCart(cart);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -104,7 +103,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Products");
             }
             return View(cart);
         }
@@ -117,8 +116,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            var cart = await _context.Carts
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var cart = await _context.GetCart(id);
+
             if (cart == null)
             {
                 return NotFound();
@@ -132,15 +131,10 @@ namespace EcomProject_JimmyRebecca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cart = await _context.Carts.FindAsync(id);
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var cart = await _context.GetCart(id);
+            await _context.DeleteCart(cart);
 
-        private bool CartExists(int id)
-        {
-            return _context.Carts.Any(e => e.ID == id);
+            return RedirectToAction("Index", "Products");
         }
     }
 }
