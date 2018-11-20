@@ -1,5 +1,4 @@
-﻿using EcomProject_JimmyRebecca.Data;
-using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +14,11 @@ namespace EcomProject_JimmyRebecca.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        private ApplicationDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
         /// <summary>
@@ -53,12 +50,73 @@ namespace EcomProject_JimmyRebecca.Controllers
         }
 
         /// <summary>
-        /// Register a user action. This method updates a user's account information if a user is already signed in, or it creates a new user if a user is not already signed in.
+        /// Register a user action.
         /// </summary>
         /// <param name="ra">Takes in a user model to register</param>
         /// <returns>Returns a view</returns>
         [HttpPost]
         public async Task<IActionResult> Register(RegisterAccount ra)
+        {
+            if (ModelState.IsValid && !_signInManager.IsSignedIn(User))
+            {
+                ApplicationUser newUser = new ApplicationUser()
+                {
+                    UserName = ra.Email,
+                    FirstName = ra.FirstName,
+                    LastName = ra.LastName,
+                    Email = ra.Email,
+                    AccountCreation = ra.AccountCreation,
+                    Address = ra.Address,
+                    Birthday = ra.Birthday,
+                    LovesCats = ra.LovesCats
+                };
+
+                var result = await _userManager.CreateAsync(newUser, ra.Password);
+
+                if (result.Succeeded)
+                {// Custom Claim type for full name
+                    Claim fullNameClaim = new Claim("FullName", $"{newUser.FirstName} {newUser.LastName}");
+
+                    // Custom claim type for loves cats
+                    Claim lovesCatsClaim = new Claim("LovesCats", newUser.LovesCats.ToString().ToLower());
+
+                    // claim type for birthday
+                    Claim birthdayClaim = new Claim(
+                        ClaimTypes.DateOfBirth,
+                        new DateTime(newUser.Birthday.Year, newUser.Birthday.Month, newUser.Birthday.Day).ToString("u"), ClaimValueTypes.DateTime);
+
+                    // claim type for email
+                    Claim emailClaim = new Claim(ClaimTypes.Email, newUser.Email, ClaimValueTypes.Email);
+
+                    // claim for  type address
+                    Claim addressClaim = new Claim(ClaimTypes.StreetAddress, newUser.Address);
+
+                    List<Claim> myclaims = new List<Claim>()
+                    {
+                        fullNameClaim,
+                        birthdayClaim,
+                        emailClaim,
+                        addressClaim,
+                        lovesCatsClaim
+                    };
+
+                    // adds the claims
+                    await _userManager.AddClaimsAsync(newUser, myclaims);
+
+                    await _signInManager.SignInAsync(newUser, isPersistent: false);
+                }
+            }
+
+            return RedirectToAction("Index", "Products");
+        }
+
+        /// <summary>
+        /// This method updates a user's account information if a user is already signed in.
+        /// </summary>
+        /// <param name="ra">Account info to update current user</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(RegisterAccount ra)
         {
             if (_signInManager.IsSignedIn(User))
             {
@@ -117,68 +175,6 @@ namespace EcomProject_JimmyRebecca.Controllers
                     }
                 }
             }
-            else if (ModelState.IsValid && !_signInManager.IsSignedIn(User))
-            {
-                CheckUserRolesExist();
-
-                ApplicationUser newUser = new ApplicationUser()
-                {
-                    UserName = ra.Email,
-                    FirstName = ra.FirstName,
-                    LastName = ra.LastName,
-                    Email = ra.Email,
-                    AccountCreation = ra.AccountCreation,
-                    Address = ra.Address,
-                    Birthday = ra.Birthday,
-                    LovesCats = ra.LovesCats
-                };
-
-                var result = await _userManager.CreateAsync(newUser, ra.Password);
-
-                if (result.Succeeded)
-                {// Custom Claim type for full name
-                    Claim fullNameClaim = new Claim("FullName", $"{newUser.FirstName} {newUser.LastName}");
-
-                    // Custom claim type for loves cats
-                    Claim lovesCatsClaim = new Claim("LovesCats", newUser.LovesCats.ToString().ToLower());
-
-                    // claim type for birthday
-                    Claim birthdayClaim = new Claim(
-                        ClaimTypes.DateOfBirth,
-                        new DateTime(newUser.Birthday.Year, newUser.Birthday.Month, newUser.Birthday.Day).ToString("u"), ClaimValueTypes.DateTime);
-
-                    // claim type for email
-                    Claim emailClaim = new Claim(ClaimTypes.Email, newUser.Email, ClaimValueTypes.Email);
-
-                    // claim for  type address
-                    Claim addressClaim = new Claim(ClaimTypes.StreetAddress, newUser.Address);
-
-                    List<Claim> myclaims = new List<Claim>()
-                    {
-                        fullNameClaim,
-                        birthdayClaim,
-                        emailClaim,
-                        addressClaim,
-                        lovesCatsClaim
-                    };
-
-                    // make admins if emails are these
-                    if (ra.Email.ToLower() == "amanda@codefellows.com" || ra.Email.ToLower() == "jimmyn123@gmail.com" || ra.Email.ToLower() == "rebeccayhong@gmail.com")
-                    {
-
-
-                        await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
-
-                    }
-
-                    await _userManager.AddToRoleAsync(newUser, UserRoles.Member);
-
-                    // adds the claims
-                    await _userManager.AddClaimsAsync(newUser, myclaims);
-
-                    await _signInManager.SignInAsync(newUser, isPersistent: false);
-                }
-            }
 
             return RedirectToAction("Index", "Products");
         }
@@ -228,27 +224,6 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-        }
-
-        /// <summary>
-        /// Checks if the roles exist
-        /// </summary>
-        public void CheckUserRolesExist()
-        {
-            if (!_context.Roles.Any())
-            {
-                List<IdentityRole> Roles = new List<IdentityRole>
-                {
-                    new IdentityRole{Name = UserRoles.Admin, NormalizedName=UserRoles.Admin.ToString(), ConcurrencyStamp = Guid.NewGuid().ToString()},
-                    new IdentityRole{Name = UserRoles.Member, NormalizedName=UserRoles.Member.ToString(), ConcurrencyStamp = Guid.NewGuid().ToString()},
-                };
-
-                foreach (var role in Roles)
-                {
-                    _context.Roles.Add(role);
-                    _context.SaveChanges();
-                }
-            }
         }
     }
 
