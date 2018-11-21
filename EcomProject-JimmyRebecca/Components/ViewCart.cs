@@ -34,7 +34,7 @@ namespace EcomProject_JimmyRebecca.Components
                     .Include(c => c.User)
                     .FirstOrDefaultAsync(c => c.User.Id == user.Id && !c.OrderFulfilled);
 
-                return View(cart);
+                return View(cart.LineItems);
             }
 
             return View();

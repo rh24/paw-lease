@@ -241,9 +241,9 @@ namespace EcomProject_JimmyRebecca.Controllers
 
 
         [HttpGet]
-        public IActionResult ForceLogout()
+        public async Task ForceLogout()
         {
-            return RedirectToAction("Logout");
+            await _signInManager.SignOutAsync();
         }
     }
 
