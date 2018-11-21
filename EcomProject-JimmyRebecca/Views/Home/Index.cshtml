@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using EcomProject_JimmyRebecca.Models
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
@@ -8,6 +9,10 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <h1>Welcome back, @User.Claims.First(name => name.Type == "FullName").Value!</h1>
+
+        <div class="cart">
+            @await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
+        </div>
     }
     else
     {

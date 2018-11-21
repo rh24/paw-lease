@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EcomProject_JimmyRebecca.Migrations.ProductDB
 {
-    public partial class UpdateDatabaseSchema : Migration
+    public partial class InitialProd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,12 +40,28 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ProductName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    SuggestedDonation = table.Column<decimal>(nullable: false),
+                    IsCat = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Carts",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApplicationUserID = table.Column<int>(nullable: false),
+                    OrderFulfilled = table.Column<bool>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -86,33 +102,22 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "Products",
-                keyColumn: "ID",
-                keyValue: 1,
-                column: "IsCat",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "ID",
-                keyValue: 4,
-                column: "IsCat",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "ID",
-                keyValue: 7,
-                column: "IsCat",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "ID",
-                keyValue: 10,
-                column: "IsCat",
-                value: true);
+                columns: new[] { "ID", "Description", "IsCat", "ProductName", "SuggestedDonation" },
+                values: new object[,]
+                {
+                    { 1, "It's garfield, who doesn't want garfield???", true, "Tabby", 900m },
+                    { 2, "Endless fun! For your cat too, I guess...", false, "Laser Pointer", 30m },
+                    { 3, "When you just don't wanna deal with them anymore", false, "Catnip", 35m },
+                    { 4, "Scottish folds are normal cats that fold their ears.", true, "Scottish Fold", 1100m },
+                    { 5, "They might not like it, but it'll keep them warm", false, "Cat-shirt", 40m },
+                    { 6, "This is where lion king started", false, "Cat Post", 75m },
+                    { 7, "It's like a bengal, but less dangerous.", true, "Bengal", 900m },
+                    { 8, "Buy a cat a home, they'll leave you forever.", false, "Cat-stle", 120m },
+                    { 9, "When you want mindless zombies...", false, "Cat Food", 50m },
+                    { 10, "If you enjoy vodka, this is your friend.", true, "Russian Blue", 900m }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_UserId",
@@ -139,35 +144,10 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
                 name: "Carts");
 
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
                 name: "ApplicationUser");
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "ID",
-                keyValue: 1,
-                column: "IsCat",
-                value: false);
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "ID",
-                keyValue: 4,
-                column: "IsCat",
-                value: false);
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "ID",
-                keyValue: 7,
-                column: "IsCat",
-                value: false);
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "ID",
-                keyValue: 10,
-                column: "IsCat",
-                value: false);
         }
     }
 }
