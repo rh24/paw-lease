@@ -11,7 +11,7 @@
         <h1>Welcome back, @User.Claims.First(name => name.Type == "FullName").Value!</h1>
 
         <div class="cart">
-            @await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
+            @await Component.InvokeAsync("ViewCart", UserManager.GetUserAsync(User))
         </div>
     }
     else

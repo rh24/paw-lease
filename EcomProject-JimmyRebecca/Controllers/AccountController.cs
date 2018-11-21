@@ -60,7 +60,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterAccount ra)
         {
-            if (ModelState.IsValid && !_signInManager.IsSignedIn(User))
+            if (ModelState.IsValid)
             {
                 ApplicationUser newUser = new ApplicationUser()
                 {
@@ -103,15 +103,17 @@ namespace EcomProject_JimmyRebecca.Controllers
                         lovesCatsClaim
                     };
 
-                    //// create a cart for the user
-                    //var cart = new Cart
-                    //{
-                    //    User = newUser
-                    //};
-                    //_context.CreateCart(cart);
-
-                    // adds the claims
+                    //adds the claims
                     await _userManager.AddClaimsAsync(newUser, myclaims);
+
+                    // create a cart for the user
+                    var cart = new Cart
+                    {
+                        User = newUser
+                    };
+
+                    await _context.CreateCart(cart);
+
 
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }

@@ -12,7 +12,6 @@ namespace EcomProject_JimmyRebecca.Models
         public ICollection<LineItem> LineItems { get; set; }
 
         // A cart belongs to a user
-        public int ApplicationUserID { get; set; }
         public ApplicationUser User { get; set; }
     }
 }

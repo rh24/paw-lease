@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcomProject_JimmyRebecca.Migrations.ProductDB
 {
     [DbContext(typeof(ProductDBContext))]
-    [Migration("20181120202347_UpdateDatabaseSchema")]
-    partial class UpdateDatabaseSchema
+    [Migration("20181121010908_InitialProd")]
+    partial class InitialProd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,7 +77,7 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApplicationUserID");
+                    b.Property<bool>("OrderFulfilled");
 
                     b.Property<string>("UserId");
 

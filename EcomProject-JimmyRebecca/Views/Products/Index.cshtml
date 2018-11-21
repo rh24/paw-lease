@@ -44,6 +44,6 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="cart">
-        @await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
+        @await Component.InvokeAsync("ViewCart", UserManager.GetUserAsync(User))
     </div>
 }

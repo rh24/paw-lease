@@ -1,4 +1,5 @@
 ﻿using EcomProject_JimmyRebecca.Data;
+using EcomProject_JimmyRebecca.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -24,14 +25,14 @@ namespace EcomProject_JimmyRebecca.Components
         /// </summary>
         /// <param name="userID">Current user ID</param>
         /// <returns>View that calls this method</returns>
-        public async Task<IViewComponentResult> InvokeAsync(string userID)
+        public async Task<IViewComponentResult> InvokeAsync(ApplicationUser user)
         {
-            if (userID != null)
+            if (user != null && user.Carts.First(c => c.OrderFulfilled == false) != null)
             {
                 var cart = await _context.Carts
                     .Include(c => c.LineItems)
                     .Include(c => c.User)
-                    .Where(c => c.User.ID == userID && !c.OrderFulfilled).ToListAsync();
+                    .FirstOrDefaultAsync(c => c.User.Id == user.Id && !c.OrderFulfilled);
 
                 return View(cart);
             }

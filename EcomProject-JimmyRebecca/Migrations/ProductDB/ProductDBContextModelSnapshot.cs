@@ -75,8 +75,6 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApplicationUserID");
-
                     b.Property<bool>("OrderFulfilled");
 
                     b.Property<string>("UserId");

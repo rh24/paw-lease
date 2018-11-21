@@ -15,6 +15,5 @@ namespace EcomProject_JimmyRebecca.Models
 
         // Navigation props:
         public ICollection<Cart> Carts { get; set; }
-        public string ID { get; internal set; }
     }
 }
