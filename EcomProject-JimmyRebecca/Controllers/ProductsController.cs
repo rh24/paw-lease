@@ -17,6 +17,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.GetProducts());
+            // Make view model containing products and cartid, line items
         }
 
         // GET: Products/Details/5

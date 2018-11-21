@@ -82,6 +82,64 @@ namespace EcomProject_JimmyRebecca.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("EcomProject_JimmyRebecca.Models.Cart", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("OrderFulfilled");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("EcomProject_JimmyRebecca.Models.LineItem", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CartID");
+
+                    b.Property<int>("ProductID");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CartID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("LineItem");
+                });
+
+            modelBuilder.Entity("EcomProject_JimmyRebecca.Models.Product", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsCat");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired();
+
+                    b.Property<decimal>("SuggestedDonation");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Product");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -190,6 +248,26 @@ namespace EcomProject_JimmyRebecca.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("EcomProject_JimmyRebecca.Models.Cart", b =>
+                {
+                    b.HasOne("EcomProject_JimmyRebecca.Models.ApplicationUser", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("EcomProject_JimmyRebecca.Models.LineItem", b =>
+                {
+                    b.HasOne("EcomProject_JimmyRebecca.Models.Cart", "Cart")
+                        .WithMany("LineItems")
+                        .HasForeignKey("CartID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EcomProject_JimmyRebecca.Models.Product", "Product")
+                        .WithMany("LineItems")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,4 +1,5 @@
 ﻿using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Models.Interfaces;
 using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ namespace EcomProject_JimmyRebecca.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private readonly ICart _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterAccount ra)
         {
-            if (ModelState.IsValid && !_signInManager.IsSignedIn(User))
+            if (ModelState.IsValid)
             {
                 ApplicationUser newUser = new ApplicationUser()
                 {
@@ -100,14 +103,22 @@ namespace EcomProject_JimmyRebecca.Controllers
                         lovesCatsClaim
                     };
 
-                    // adds the claims
+                    //adds the claims
                     await _userManager.AddClaimsAsync(newUser, myclaims);
+
+                    // create a cart for the user
+                    var cart = new Cart
+                    {
+                        User = newUser
+                    };
+
+                    await _context.CreateCart(cart);
+
 
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
             }
-
-            return RedirectToAction("Index", "Products");
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>
@@ -178,7 +189,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Products");
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>
@@ -226,6 +237,13 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpGet]
+        public async Task ForceLogout()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 

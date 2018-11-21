@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using EcomProject_JimmyRebecca.Models
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@model IEnumerable<EcomProject_JimmyRebecca.Models.LineItem>
+
+<div>
+    <h3>My cart: </h3>
+    @if (Model != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Product Name
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var li in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => li.Product.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => li.Quantity)
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-controller="LineItem" asp-route-id="@li.ID">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
