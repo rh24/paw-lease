@@ -1,4 +1,5 @@
-﻿using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Data;
+using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -16,12 +17,14 @@ namespace EcomProject_JimmyRebecca.Controllers
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private readonly ICart _context;
+        private readonly ApplicationDbContext _user;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context, ApplicationDbContext user)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _user = user;
         }
 
         /// <summary>
@@ -62,6 +65,8 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             if (ModelState.IsValid)
             {
+                CheckUserRolesExist();
+
                 ApplicationUser newUser = new ApplicationUser()
                 {
                     UserName = ra.Email,
@@ -112,8 +117,15 @@ namespace EcomProject_JimmyRebecca.Controllers
                         User = newUser
                     };
 
-                    await _context.CreateCart(cart);
 
+                    // make admins if emails are these
+                    if (ra.Email.ToLower() == "amanda@codefellows.com" || ra.Email.ToLower() == "jimmyn123@gmail.com" || ra.Email.ToLower() == "rebeccayhong@gmail.com")
+                    {
+                        await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
+                    }
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.Member);
+
+                    await _context.CreateCart(cart);
 
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
@@ -184,6 +196,17 @@ namespace EcomProject_JimmyRebecca.Controllers
                         // adds the claims
                         await _userManager.AddClaimsAsync(user, myclaims);
 
+                        // make admins if emails are these
+                        if (ra.Email.ToLower() == "amanda@codefellows.com" || ra.Email.ToLower() == "jimmyn123@gmail.com" || ra.Email.ToLower() == "rebeccayhong@gmail.com")
+                        {
+                            await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+                        }
+                        else
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, UserRoles.Admin);
+                        }
+                        await _userManager.AddToRoleAsync(user, UserRoles.Member);
+                        
                         await _signInManager.RefreshSignInAsync(user);
                     }
                 }
@@ -239,11 +262,30 @@ namespace EcomProject_JimmyRebecca.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
         [HttpGet]
         public async Task ForceLogout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        /// <summary>
+        /// Checks if the roles exist
+        /// </summary>
+        public void CheckUserRolesExist()
+        {
+            if (!_user.Roles.Any())
+            {
+                List<IdentityRole> Roles = new List<IdentityRole>
+                {
+                    new IdentityRole{Name = UserRoles.Admin, NormalizedName=UserRoles.Admin.ToString(), ConcurrencyStamp = Guid.NewGuid().ToString()},
+                    new IdentityRole{Name = UserRoles.Member, NormalizedName=UserRoles.Member.ToString(), ConcurrencyStamp = Guid.NewGuid().ToString()},
+                };
+                foreach (var role in Roles)
+                {
+                    _user.Roles.Add(role);
+                    _user.SaveChanges();
+                }
+            }
         }
     }
 
