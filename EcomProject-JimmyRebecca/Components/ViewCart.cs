@@ -2,7 +2,6 @@
 using EcomProject_JimmyRebecca.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Components
@@ -10,14 +9,16 @@ namespace EcomProject_JimmyRebecca.Components
     public class ViewCart : ViewComponent
     {
         private readonly ProductDBContext _context;
+        private readonly ApplicationDbContext _userContext;
 
         /// <summary>
         /// Constructor injection
         /// </summary>
         /// <param name="context">ProductDBContext</param>
-        public ViewCart(ProductDBContext context)
+        public ViewCart(ProductDBContext context, ApplicationDbContext userContext)
         {
             _context = context;
+            _userContext = userContext;
         }
 
         /// <summary>
@@ -25,11 +26,13 @@ namespace EcomProject_JimmyRebecca.Components
         /// </summary>
         /// <param name="userID">Current user ID</param>
         /// <returns>View that calls this method</returns>
-        public async Task<IViewComponentResult> InvokeAsync(ApplicationUser user)
+        public async Task<IViewComponentResult> InvokeAsync(string userId)
         {
-            if (user != null && user.Carts.First(c => c.OrderFulfilled == false) != null)
+            ApplicationUser user = await _userContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var foundCart = await _context.Carts.FirstOrDefaultAsync(c => c.OrderFulfilled == false && c.User == user);
+            if (user != null && foundCart != null)
             {
-                var cart = await _context.Carts
+                Cart cart = await _context.Carts
                     .Include(c => c.LineItems)
                     .Include(c => c.User)
                     .FirstOrDefaultAsync(c => c.User.Id == user.Id && !c.OrderFulfilled);
