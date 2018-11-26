@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using EcomProject_JimmyRebecca.Models
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <nav>
     @if (SignInManager.IsSignedIn(User))
     {
@@ -16,6 +17,7 @@
         <a asp-action="../Account/Register">Register</a>
     }
     <a asp-action="../Admin/Index">Admin Console</a>
+    <a asp-action="Active" asp-controller="Carts" asp-route-userId="@UserManager.GetUserId(User)">>My Shopping Cart</a>
     <form asp-action="Logout" asp-controller="Account" method="post">
         <button type="submit">Static Log out</button>
     </form>

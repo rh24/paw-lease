@@ -32,6 +32,11 @@ namespace EcomProject_JimmyRebecca.Models.Services
             return await _context.Carts.FirstOrDefaultAsync(c => c.ID == id);
         }
 
+        public async Task<Cart> GetCartByUserId(string userId)
+        {
+            return await _context.Carts.FirstOrDefaultAsync(c => c.User.Id == userId);
+        }
+
         public async Task<IEnumerable<Cart>> GetCarts()
         {
             return await _context.Carts.ToListAsync();
