@@ -26,6 +26,10 @@
     {
         <a asp-action="Checkout" asp-controller="CatAdoption" asp-route-id="@Model.ID">Adopt this cat!</a>
     }
+    else
+    {
+        <a asp-action="Checkout" asp-controller="Basket" asp-route-id="@Model.ID">Add to Basket</a>
+    }
 </div>
 <div>
     <a asp-action="Index">Back to List</a>
