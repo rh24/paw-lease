@@ -11,6 +11,7 @@ namespace EcomProject_JimmyRebecca.Models.Interfaces
         Task UpdateCart(Cart product);
         Task DeleteCart(Cart product);
         Task<Cart> GetCart(int? id);
+        Task<Cart> GetCartByUserId(string userId);
         Task<IEnumerable<Cart>> GetCarts();
     }
 }

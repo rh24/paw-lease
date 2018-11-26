@@ -1,5 +1,6 @@
 ﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,10 +11,14 @@ namespace EcomProject_JimmyRebecca.Controllers
     public class CartsController : Controller
     {
         private readonly ICart _context;
+        private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
 
-        public CartsController(ICart context)
+        public CartsController(ICart context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // GET: Carts
@@ -31,6 +36,24 @@ namespace EcomProject_JimmyRebecca.Controllers
             }
 
             var cart = await _context.GetCart(id);
+
+            if (cart == null)
+            {
+                return NotFound();
+            }
+
+            return View(cart);
+        }
+
+        // GET: Carts/Details/5
+        public async Task<IActionResult> Details(string userId)
+        {
+            if (userId == null)
+            {
+                return NotFound();
+            }
+
+            var cart = await _context.GetCartByUserId(userId);
 
             if (cart == null)
             {
