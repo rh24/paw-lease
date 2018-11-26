@@ -36,6 +36,8 @@ namespace EcomProject_JimmyRebecca.Controllers
             }
 
             var cart = await _context.GetCart(id);
+            //if (cart == null)
+            //var cart = await _context.GetCartByUserId(id.ToString());
 
             if (cart == null)
             {
@@ -45,8 +47,13 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(cart);
         }
 
-        // GET: Carts/Details/5
-        public async Task<IActionResult> Details(string userId)
+        // GET: Carts/Active/{userId}
+        /// <summary>
+        /// This method views the user's current, unfulfilled cart by grabbing its user ID from the route.
+        /// </summary>
+        /// <param name="userId">ApplicationUser's string ID</param>
+        /// <returns></returns>
+        public async Task<IActionResult> Active(string userId)
         {
             if (userId == null)
             {
@@ -60,7 +67,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            return View(cart);
+            return View("Details", cart);
         }
 
         // GET: Carts/Create
