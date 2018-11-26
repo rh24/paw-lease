@@ -7,8 +7,10 @@ namespace EcomProject_JimmyRebecca.Models
     {
         public int ID { get; set; }
         [Required]
+        [Display(Name = "Product")]
         public string ProductName { get; set; }
         public string Description { get; set; }
+        [Display(Name = "Suggested Donation")]
         public decimal SuggestedDonation { get; set; }
         public bool IsCat { get; set; }
 
