@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcomProject_JimmyRebecca.Controllers
 {
     [Authorize(Policy = "CatLover")]
-    public class CatAdoptionController : Controller
+    public class CatAdoptionsController : Controller
     {
         /// <summary>
         /// This page will show all the cats up for adoption.
