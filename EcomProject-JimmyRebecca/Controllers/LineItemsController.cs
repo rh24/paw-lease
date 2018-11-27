@@ -1,4 +1,5 @@
-﻿using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Data;
+using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +11,12 @@ namespace EcomProject_JimmyRebecca.Controllers
     public class LineItemsController : Controller
     {
         private readonly ILineItem _context;
+        private readonly ApplicationDbContext _user;
 
-        public LineItemsController(ILineItem context)
+        public LineItemsController(ILineItem context, ApplicationDbContext user)
         {
             _context = context;
+            _user = user;
         }
 
         // GET: LineItems
@@ -51,8 +54,10 @@ namespace EcomProject_JimmyRebecca.Controllers
         // POST: LineItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProductID,CartID,Quantity")] LineItem lineItem)
+        public async Task<IActionResult> Create(string userId)
         {
+            ApplicationUser user = await _user.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var foundCart = await _context.Carts.FirstOrDefaultAsync(c => c.OrderFulfilled == false && c.User == user);
             if (ModelState.IsValid)
             {
                 await _context.CreateLineItem(lineItem);
