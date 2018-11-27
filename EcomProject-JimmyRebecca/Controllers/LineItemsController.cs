@@ -12,11 +12,13 @@ namespace EcomProject_JimmyRebecca.Controllers
     {
         private readonly ILineItem _context;
         private readonly ApplicationDbContext _user;
+        private readonly ProductDBContext _dbContext;
 
-        public LineItemsController(ILineItem context, ApplicationDbContext user)
+        public LineItemsController(ILineItem context, ApplicationDbContext user, ProductDBContext dbContext)
         {
             _context = context;
             _user = user;
+            _dbContext = dbContext;
         }
 
         // GET: LineItems
@@ -54,19 +56,24 @@ namespace EcomProject_JimmyRebecca.Controllers
         // POST: LineItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string userId)
+        public async Task<IActionResult> Create(int productId, string userId)
         {
             ApplicationUser user = await _user.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            var foundCart = await _context.Carts.FirstOrDefaultAsync(c => c.OrderFulfilled == false && c.User == user);
-            if (ModelState.IsValid)
+            var foundCart = await _dbContext.Carts.FirstOrDefaultAsync(c => c.OrderFulfilled == false && c.User == user);
+
+            LineItem lineItem = new LineItem()
             {
-                await _context.CreateLineItem(lineItem);
-                return RedirectToAction(nameof(Index));
-            }
+                ProductID = productId,
+                CartID = foundCart.ID,
+                Quantity = Quantity.one
+            };
+
+            await _context.CreateLineItem(lineItem);
+            return RedirectToAction(nameof(Index));
             //ViewData["CartID"] = new SelectList(_context., "ID", "ID", lineItem.CartID);
             //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
 
-            return View(lineItem);
+            //return View(lineItem);
         }
 
         // GET: LineItems/Edit/5
