@@ -25,14 +25,16 @@
             @Html.DisplayFor(model => model.SuggestedDonation)
         </dd>
     </dl>
-    <form method="post">
+    <form  asp-action="Create" asp-controller="LineItems" method="post">
+        <input type="hidden" name="productId" value="@Model.ID" />
+        <input type="hidden" name="userId" value="@UserManager.GetUserId(User)" />
     @if (Model.IsCat)
     {
-        <button type="submit" asp-action="Create" asp-controller="LineItems" asp-route-productId="@Model.ID" asp-route-userId="@UserManager.GetUserId(User)">Adopt this cat!</button>
+        <button type="submit">Adopt this cat!</button>
     }
     else
     {
-        <button type="submit" asp-action="Create" asp-controller="LineItems" asp-route-productId="@Model.ID" asp-route-userId="@UserManager.GetUserId(User)">Add to Basket</button>
+        <button type="submit">Add to Basket</button>
     }
     </form>
 </div>
