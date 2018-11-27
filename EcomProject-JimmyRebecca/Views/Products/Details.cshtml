@@ -1,4 +1,7 @@
 ﻿@model EcomProject_JimmyRebecca.Models.Product
+@using Microsoft.AspNetCore.Identity
+@using EcomProject_JimmyRebecca.Models
+@inject UserManager<ApplicationUser> UserManager
 <div>
     <h4>Product</h4>
     <hr />
@@ -22,14 +25,18 @@
             @Html.DisplayFor(model => model.SuggestedDonation)
         </dd>
     </dl>
+    <form  asp-action="Create" asp-controller="LineItems" method="post">
+        <input type="hidden" name="productId" value="@Model.ID" />
+        <input type="hidden" name="userId" value="@UserManager.GetUserId(User)" />
     @if (Model.IsCat)
     {
-        <a asp-action="Checkout" asp-controller="CatAdoption" asp-route-id="@Model.ID">Adopt this cat!</a>
+        <button type="submit">Adopt this cat!</button>
     }
     else
     {
-        <a asp-action="Checkout" asp-controller="Basket" asp-route-id="@Model.ID">Add to Basket</a>
+        <button type="submit">Add to Basket</button>
     }
+    </form>
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

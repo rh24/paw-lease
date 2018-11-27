@@ -1,4 +1,5 @@
-﻿using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Data;
+using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +11,14 @@ namespace EcomProject_JimmyRebecca.Controllers
     public class LineItemsController : Controller
     {
         private readonly ILineItem _context;
+        private readonly ApplicationDbContext _user;
+        private readonly ProductDBContext _dbContext;
 
-        public LineItemsController(ILineItem context)
+        public LineItemsController(ILineItem context, ApplicationDbContext user, ProductDBContext dbContext)
         {
             _context = context;
+            _user = user;
+            _dbContext = dbContext;
         }
 
         // GET: LineItems
@@ -51,17 +56,24 @@ namespace EcomProject_JimmyRebecca.Controllers
         // POST: LineItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProductID,CartID,Quantity")] LineItem lineItem)
+        public async Task<IActionResult> Create(int productId, string userId)
         {
-            if (ModelState.IsValid)
+            ApplicationUser user = await _user.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var foundCart = await _dbContext.Carts.FirstOrDefaultAsync(c => c.OrderFulfilled == false && c.User == user);
+
+            LineItem lineItem = new LineItem()
             {
-                await _context.CreateLineItem(lineItem);
-                return RedirectToAction(nameof(Index));
-            }
+                ProductID = productId,
+                CartID = foundCart.ID,
+                Quantity = Quantity.one
+            };
+
+            await _context.CreateLineItem(lineItem);
+            return RedirectToAction(nameof(Index));
             //ViewData["CartID"] = new SelectList(_context., "ID", "ID", lineItem.CartID);
             //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
 
-            return View(lineItem);
+            //return View(lineItem);
         }
 
         // GET: LineItems/Edit/5
