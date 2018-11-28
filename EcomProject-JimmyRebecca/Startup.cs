@@ -58,6 +58,10 @@ namespace EcomProject_JimmyRebecca
             }
 
             app.UseAuthentication();
+
+            // Middleware that allows us to fire a second controller action upon receipt of status code
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
+
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
