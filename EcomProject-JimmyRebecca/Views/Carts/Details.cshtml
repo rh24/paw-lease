@@ -1,4 +1,7 @@
 ﻿@model EcomProject_JimmyRebecca.Models.Cart
+@using Microsoft.AspNetCore.Identity
+@using EcomProject_JimmyRebecca.Models
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -15,9 +18,7 @@
         </dd>
     </dl>
 </div>
-@{
-    await Html.RenderPartialAsync("../LineItems/Index", Model.LineItems);
-}
+@await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
     <a asp-action="Index">View Past Orders</a>

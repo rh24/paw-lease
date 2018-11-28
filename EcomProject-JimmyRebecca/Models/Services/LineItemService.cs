@@ -3,6 +3,7 @@ using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace EcomProject_JimmyRebecca.Models.Services
 {
@@ -29,17 +30,22 @@ namespace EcomProject_JimmyRebecca.Models.Services
 
         public async Task<LineItem> GetLineItem(int? id)
         {
-            return await _context.LineItems.FirstOrDefaultAsync(li => li.ID == id);
+            return await _context.LineItems.Include(li => li.Product).FirstOrDefaultAsync(li => li.ID == id);
         }
 
         public async Task<LineItem> GetLineItemByProduct(int cartId, int productId)
         {
-            return await _context.LineItems.FirstOrDefaultAsync(li => li.CartID == cartId && li.ProductID == productId);
+            return await _context.LineItems.Include(li => li.Product).FirstOrDefaultAsync(li => li.CartID == cartId && li.ProductID == productId);
         }
 
         public async Task<IEnumerable<LineItem>> GetLineItems()
         {
-            return await _context.LineItems.ToListAsync();
+            return await _context.LineItems.Include(li => li.Product).ToListAsync();
+        }
+
+        public async Task<IEnumerable<LineItem>> GetLineItems(int id)
+        {
+            return await _context.LineItems.Include(li => li.Product).Where(li => li.CartID == id).ToListAsync();
         }
 
         public async Task UpdateLineItem(LineItem lineitem)

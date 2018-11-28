@@ -34,7 +34,7 @@ namespace EcomProject_JimmyRebecca.Models.Services
 
         public async Task<Cart> GetCartByUserId(string userId)
         {
-            return await _context.Carts.FirstOrDefaultAsync(c => c.User.Id == userId);
+            return await _context.Carts.Include(c => c.LineItems).FirstOrDefaultAsync(c => c.User.Id == userId);
         }
 
         public async Task<IEnumerable<Cart>> GetCarts()
