@@ -4,7 +4,7 @@ namespace EcomProject_JimmyRebecca.Controllers
 {
     public class HttpErrorsController : Controller
     {
-        public IActionResult NotFound()
+        public new IActionResult NotFound()
         {
             return View();
         }
