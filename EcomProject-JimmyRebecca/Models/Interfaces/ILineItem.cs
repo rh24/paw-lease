@@ -11,6 +11,7 @@ namespace EcomProject_JimmyRebecca.Models.Interfaces
         Task UpdateLineItem(LineItem product);
         Task DeleteLineItem(LineItem product);
         Task<LineItem> GetLineItem(int? id);
+        Task<IEnumerable<LineItem>> GetLineItems(int id);
         Task<LineItem> GetLineItemByProduct(int id, int productId);
         Task<IEnumerable<LineItem>> GetLineItems();
     }

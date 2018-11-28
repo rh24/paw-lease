@@ -1,5 +1,6 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -10,15 +11,18 @@ namespace EcomProject_JimmyRebecca.Components
     {
         private readonly ProductDBContext _context;
         private readonly ApplicationDbContext _userContext;
+        private readonly ILineItem _liContext;
+
 
         /// <summary>
         /// Constructor injection
         /// </summary>
         /// <param name="context">ProductDBContext</param>
-        public ViewCart(ProductDBContext context, ApplicationDbContext userContext)
+        public ViewCart(ProductDBContext context, ApplicationDbContext userContext, ILineItem liContext)
         {
             _context = context;
             _userContext = userContext;
+            _liContext = liContext;
         }
 
         /// <summary>
@@ -37,7 +41,8 @@ namespace EcomProject_JimmyRebecca.Components
                     .Include(c => c.User)
                     .FirstOrDefaultAsync(c => c.User.Id == user.Id && !c.OrderFulfilled);
 
-                return View(cart.LineItems);
+                var li = await _liContext.GetLineItems(cart.ID);
+                return View(li);
             }
 
             return View();
