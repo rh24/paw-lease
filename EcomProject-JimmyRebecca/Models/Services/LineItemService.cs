@@ -32,6 +32,11 @@ namespace EcomProject_JimmyRebecca.Models.Services
             return await _context.LineItems.FirstOrDefaultAsync(li => li.ID == id);
         }
 
+        public async Task<LineItem> GetLineItemByProduct(int cartId, int productId)
+        {
+            return await _context.LineItems.FirstOrDefaultAsync(li => li.CartID == cartId && li.ProductID == productId);
+        }
+
         public async Task<IEnumerable<LineItem>> GetLineItems()
         {
             return await _context.LineItems.ToListAsync();
