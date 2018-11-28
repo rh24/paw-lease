@@ -56,19 +56,31 @@ namespace EcomProject_JimmyRebecca.Controllers
         // POST: LineItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int productId, string userId)
+        public async Task<IActionResult> Create(int productId, string userId, int quantity)
         {
             ApplicationUser user = await _user.Users.FirstOrDefaultAsync(u => u.Id == userId);
             var foundCart = await _dbContext.Carts.FirstOrDefaultAsync(c => c.OrderFulfilled == false && c.User == user);
 
-            LineItem lineItem = new LineItem()
-            {
-                ProductID = productId,
-                CartID = foundCart.ID,
-                Quantity = Quantity.one
-            };
+            var lineItem = await _context.GetLineItemByProduct(foundCart.ID, productId);
 
-            await _context.CreateLineItem(lineItem);
+            // updates the item quantity if the item is already in the cart
+            if (lineItem != null)
+            {
+                lineItem.Quantity = (Quantity)quantity;
+                await Edit(lineItem.ID, lineItem);
+            }
+            else
+            {
+
+                lineItem = new LineItem()
+                {
+                    ProductID = productId,
+                    CartID = foundCart.ID,
+                    Quantity = (Quantity)quantity
+                };
+
+                await _context.CreateLineItem(lineItem);
+            }
             return RedirectToAction(nameof(Index));
             //ViewData["CartID"] = new SelectList(_context., "ID", "ID", lineItem.CartID);
             //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
