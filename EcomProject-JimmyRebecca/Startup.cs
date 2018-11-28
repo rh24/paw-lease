@@ -66,6 +66,13 @@ namespace EcomProject_JimmyRebecca
                     template: "{controller=Home}/{action=Index}/{id?}"
                 )
             );
+
+            app.UseMvc(routes =>
+                routes.MapRoute(
+                    name: "NotFound",
+                    template: "{controller=HttpErrors}/{action=NotFound}/{id?}"
+                )
+            );
         }
     }
 }
