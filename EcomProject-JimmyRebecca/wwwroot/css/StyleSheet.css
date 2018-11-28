@@ -12,3 +12,8 @@ body.landing-page {
     background-image: url(../assets/cats/cats2.png);
     background-size: cover;
 }
+
+body.error-page {
+    background-image: url(../assets/cats/sadcat1.png);
+    background-size: cover;
+}
