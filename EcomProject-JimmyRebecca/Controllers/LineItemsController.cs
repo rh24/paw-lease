@@ -31,23 +31,6 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(lineItems);
         }
 
-        // GET: LineItems/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var lineItem = await _context.GetLineItem(id);
-            if (lineItem == null)
-            {
-                return NotFound();
-            }
-
-            return View(lineItem);
-        }
-
         // POST: LineItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -97,7 +80,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LineItemExists(lineItem.ID))
+                    if (!await LineItemExists(lineItem.ID))
                     {
                         return NotFound();
                     }
