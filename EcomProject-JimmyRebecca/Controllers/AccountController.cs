@@ -3,6 +3,7 @@ using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,9 @@ namespace EcomProject_JimmyRebecca.Controllers
         private SignInManager<ApplicationUser> _signInManager;
         private readonly ICart _context;
         private readonly ApplicationDbContext _user;
+        private readonly IEmailSender _email;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context, ApplicationDbContext user)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context, ApplicationDbContext user, IEmailSender _email)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -123,6 +125,10 @@ namespace EcomProject_JimmyRebecca.Controllers
                     {
                         await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
                     }
+
+                    // send user an email confirmation that registration was successful
+                    await _email.SendEmailAsync(newUser.Email, "Thank you for logging in", "<p> Hello!!! <strong>I am Happy!! </strong> </p>");
+
                     await _userManager.AddToRoleAsync(newUser, UserRoles.Member);
 
                     await _context.CreateCart(cart);
@@ -206,7 +212,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                             await _userManager.RemoveFromRoleAsync(user, UserRoles.Admin);
                         }
                         await _userManager.AddToRoleAsync(user, UserRoles.Member);
-                        
+
                         await _signInManager.RefreshSignInAsync(user);
                     }
                 }
