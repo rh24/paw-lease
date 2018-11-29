@@ -99,14 +99,13 @@ namespace EcomProject_JimmyRebecca.Controllers
             return await _context.GetLineItem(id) != null;
         }
 
-        // POST: LineItems/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var lineItem = await _context.GetLineItem(id);
             await _context.DeleteLineItem(lineItem);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Products");
         }
 
         private async Task<IActionResult> CheckIfQuantityIsZero(LineItem lineItem)
