@@ -79,24 +79,6 @@ namespace EcomProject_JimmyRebecca.Controllers
             return RedirectToAction("Index", "Products");
         }
 
-        // GET: LineItems/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var lineItem = await _context.GetLineItem(id);
-            if (lineItem == null)
-            {
-                return NotFound();
-            }
-            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
-            return View(lineItem);
-        }
-
         // POST: LineItems/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -126,14 +108,12 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
             return View(lineItem);
         }
 
-        private bool LineItemExists(int iD)
+        private async Task<bool> LineItemExists(int id)
         {
-            throw new NotImplementedException();
+            return await _context.GetLineItem(id) != null;
         }
 
         // POST: LineItems/Delete/5
