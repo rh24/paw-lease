@@ -77,6 +77,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 try
                 {
                     await _context.UpdateLineItem(lineItem);
+                    await CheckIfQuantityIsZero(lineItem);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -105,17 +106,15 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             var lineItem = await _context.GetLineItem(id);
             await _context.DeleteLineItem(lineItem);
-            return RedirectToAction("Index", "Products");
+            return RedirectToAction("Active", "Carts", new { userID = _userManager.GetUserId(User) });
         }
 
-        private async Task<IActionResult> CheckIfQuantityIsZero(LineItem lineItem)
+        private async Task CheckIfQuantityIsZero(LineItem lineItem)
         {
             if (lineItem.Quantity == 0)
             {
                 await _context.DeleteLineItem(lineItem);
             }
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }
