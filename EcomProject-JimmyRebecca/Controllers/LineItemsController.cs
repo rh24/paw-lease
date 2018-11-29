@@ -89,7 +89,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Active", "Carts", new { userID = _userManager.GetUserId(User)});
             }
             return View(lineItem);
         }

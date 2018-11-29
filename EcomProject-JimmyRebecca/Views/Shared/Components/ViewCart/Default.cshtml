@@ -30,12 +30,6 @@
                         <td>
                             @Html.DisplayFor(modelItem => li.Quantity)
                         </td>
-                        <td>
-                            <form method="post" asp-action="Delete" asp-controller="LineItems" >
-                                <input type="hidden" name="id" value="@li.ID" />
-                                <button type="submit">Remove</button>
-                            </form>
-                        </td>
                     </tr>
                 }
             </tbody>

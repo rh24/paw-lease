@@ -1,6 +1,6 @@
-﻿@model EcomProject_JimmyRebecca.Models.Cart
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using EcomProject_JimmyRebecca.Models
+@model IEnumerable<EcomProject_JimmyRebecca.Models.LineItem>
 @inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Details";
@@ -9,17 +9,53 @@
 <div>
     <h4>Cart</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderFulfilled)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OrderFulfilled)
-        </dd>
-    </dl>
 </div>
-@await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <h3>My cart: </h3>
+    @if (Model != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Product Name
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var li in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => li.Product.ProductName)
+                        </td>
+                        <td>
+                            <form asp-action="Edit" asp-controller="LineItems" method="post">
+                                <input type="hidden" name="ID" value="@li.ID" />
+                                <input type="hidden" name="ProductID" value="@li.ProductID" />
+                                <input type="hidden" name="CartID" value="@li.CartID" />
+                                <select name="Quantity" asp-items="@Html.GetEnumSelectList<EcomProject_JimmyRebecca.Models.Quantity>()">
+                                    <option selected="selected" value="@li.Quantity" disabled>@Html.DisplayFor(modelItem => li.Quantity)</option>
+                                </select>
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" asp-action="Delete" asp-controller="LineItems">
+                                <input type="hidden" name="id" value="@li.ID" />
+                                <button type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<div>
     <a asp-action="Index">View Past Orders</a>
 </div>
