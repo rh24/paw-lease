@@ -13,7 +13,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" asp-action="../Account/Register">Edit Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Log Out</a>
+                    <a class="dropdown-item" asp-action="../Account/Logout">Log Out</a>
                 </div>
             </li>
 
@@ -38,11 +38,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link active" asp-action="Active" asp-controller="Carts" asp-route-userId="@UserManager.GetUserId(User)">My Shopping Cart</a>
-        </li>
-        <li class="nav-item">
-            <form asp-action="Logout" asp-controller="Account" method="post">
-                <button type="submit">Static Log out</button>
-            </form>
         </li>
     </ul>
 </nav>
