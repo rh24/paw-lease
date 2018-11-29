@@ -9,6 +9,7 @@ body {
 /* Body styles for landing page layout _HomeLayout */
 body.landing-page {
     background-image: url(../assets/cats/cats2.png);
+    background-size: 100% 100%;
 }
 
 .container{
