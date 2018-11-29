@@ -2,8 +2,23 @@
 @using EcomProject_JimmyRebecca.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <ul class="nav justify-content-end">
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="../Products/Index">Products</a>
+        </li>
+        @if (!SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="../Account/Register">Register</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="../Admin/Index">Admin Console</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="Active" asp-controller="Carts" asp-route-userId="@UserManager.GetUserId(User)">Shopping Cart</a>
+        </li>
         @if (SignInManager.IsSignedIn(User))
         {
             <li class="nav-item dropdown">
@@ -21,23 +36,8 @@
         else
         {
             <li class="nav-item">
-                <a class="nav-link active" asp-action="../Account/Login">You're not logged in</a>
+                <a class="nav-link active" asp-action="../Account/Login">Log In</a>
             </li>
         }
-        <li class="nav-item">
-            <a class="nav-link active" asp-action="../Products/Index">Products</a>
-        </li>
-        @if (!SignInManager.IsSignedIn(User))
-        {
-            <li class="nav-item">
-                <a class="nav-link active" asp-action="../Account/Register">Register</a>
-            </li>
-        }
-        <li class="nav-item">
-            <a class="nav-link active" asp-action="../Admin/Index">Admin Console</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" asp-action="Active" asp-controller="Carts" asp-route-userId="@UserManager.GetUserId(User)">My Shopping Cart</a>
-        </li>
     </ul>
 </nav>
