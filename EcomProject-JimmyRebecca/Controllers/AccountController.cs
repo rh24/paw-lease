@@ -255,7 +255,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// Logs user out after form submit.
         /// </summary>
         /// <returns>Redirect to Home page</returns>
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
