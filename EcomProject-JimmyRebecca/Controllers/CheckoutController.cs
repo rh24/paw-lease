@@ -2,6 +2,7 @@
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
@@ -22,9 +23,10 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// This method brings in all of the items in the user's cart that they have purchased and passes it along to the Receipt.cshtml view.
         /// </summary>
         /// <returns></returns>
-        public IActionResult Receipt()
+        public async Task<IActionResult> Receipt(int cartId)
         {
-            return View();
+            var cart = await _context.GetCart(cartId);
+            return View(cart);
         }
     }
 }
