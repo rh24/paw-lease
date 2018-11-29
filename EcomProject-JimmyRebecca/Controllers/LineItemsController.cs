@@ -1,6 +1,7 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,12 +14,14 @@ namespace EcomProject_JimmyRebecca.Controllers
         private readonly ILineItem _context;
         private readonly ApplicationDbContext _user;
         private readonly ProductDBContext _dbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LineItemsController(ILineItem context, ApplicationDbContext user, ProductDBContext dbContext)
+        public LineItemsController(ILineItem context, ApplicationDbContext user, ProductDBContext dbContext, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _user = user;
             _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         // GET: LineItems
@@ -26,31 +29,6 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             var lineItems = await _context.GetLineItems();
             return View(lineItems);
-        }
-
-        // GET: LineItems/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var lineItem = await _context.GetLineItem(id);
-            if (lineItem == null)
-            {
-                return NotFound();
-            }
-
-            return View(lineItem);
-        }
-
-        // GET: LineItems/Create
-        public IActionResult Create()
-        {
-            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID");
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName");
-            return View();
         }
 
         // POST: LineItems/Create
@@ -81,29 +59,7 @@ namespace EcomProject_JimmyRebecca.Controllers
 
                 await _context.CreateLineItem(lineItem);
             }
-            return RedirectToAction(nameof(Index));
-            //ViewData["CartID"] = new SelectList(_context., "ID", "ID", lineItem.CartID);
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
-
-            //return View(lineItem);
-        }
-
-        // GET: LineItems/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var lineItem = await _context.GetLineItem(id);
-            if (lineItem == null)
-            {
-                return NotFound();
-            }
-            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
-            return View(lineItem);
+            return RedirectToAction("Index", "Products");
         }
 
         // POST: LineItems/Edit/5
@@ -124,7 +80,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LineItemExists(lineItem.ID))
+                    if (!await LineItemExists(lineItem.ID))
                     {
                         return NotFound();
                     }
@@ -133,44 +89,23 @@ namespace EcomProject_JimmyRebecca.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Active", "Carts", new { userID = _userManager.GetUserId(User)});
             }
-            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID", lineItem.CartID);
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
             return View(lineItem);
         }
 
-        private bool LineItemExists(int iD)
+        private async Task<bool> LineItemExists(int id)
         {
-            throw new NotImplementedException();
+            return await _context.GetLineItem(id) != null;
         }
 
-        // GET: LineItems/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var lineItem = await _context.GetLineItem(id);
-
-            if (lineItem == null)
-            {
-                return NotFound();
-            }
-
-            return View(lineItem);
-        }
-
-        // POST: LineItems/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var lineItem = await _context.GetLineItem(id);
             await _context.DeleteLineItem(lineItem);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Products");
         }
 
         private async Task<IActionResult> CheckIfQuantityIsZero(LineItem lineItem)

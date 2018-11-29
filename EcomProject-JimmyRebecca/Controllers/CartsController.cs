@@ -11,12 +11,15 @@ namespace EcomProject_JimmyRebecca.Controllers
     public class CartsController : Controller
     {
         private readonly ICart _context;
-        private UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _signInManager;
+        private readonly ILineItem _liContext;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public CartsController(ICart context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+
+        public CartsController(ICart context, ILineItem liContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _liContext = liContext;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -67,7 +70,8 @@ namespace EcomProject_JimmyRebecca.Controllers
                 return NotFound();
             }
 
-            return View("Details", cart);
+            var li = await _liContext.GetLineItems(cart.ID);
+            return View("Details", li);
         }
 
         // GET: Carts/Create
