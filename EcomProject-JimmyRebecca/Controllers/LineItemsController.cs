@@ -1,6 +1,7 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,12 +14,14 @@ namespace EcomProject_JimmyRebecca.Controllers
         private readonly ILineItem _context;
         private readonly ApplicationDbContext _user;
         private readonly ProductDBContext _dbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LineItemsController(ILineItem context, ApplicationDbContext user, ProductDBContext dbContext)
+        public LineItemsController(ILineItem context, ApplicationDbContext user, ProductDBContext dbContext, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _user = user;
             _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         // GET: LineItems
@@ -43,14 +46,6 @@ namespace EcomProject_JimmyRebecca.Controllers
             }
 
             return View(lineItem);
-        }
-
-        // GET: LineItems/Create
-        public IActionResult Create()
-        {
-            //ViewData["CartID"] = new SelectList(_context.Carts, "ID", "ID");
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName");
-            return View();
         }
 
         // POST: LineItems/Create
@@ -81,11 +76,7 @@ namespace EcomProject_JimmyRebecca.Controllers
 
                 await _context.CreateLineItem(lineItem);
             }
-            return RedirectToAction(nameof(Index));
-            //ViewData["CartID"] = new SelectList(_context., "ID", "ID", lineItem.CartID);
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "ProductName", lineItem.ProductID);
-
-            //return View(lineItem);
+            return RedirectToAction("Index", "Products");
         }
 
         // GET: LineItems/Edit/5
@@ -143,24 +134,6 @@ namespace EcomProject_JimmyRebecca.Controllers
         private bool LineItemExists(int iD)
         {
             throw new NotImplementedException();
-        }
-
-        // GET: LineItems/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var lineItem = await _context.GetLineItem(id);
-
-            if (lineItem == null)
-            {
-                return NotFound();
-            }
-
-            return View(lineItem);
         }
 
         // POST: LineItems/Delete/5

@@ -11,8 +11,8 @@ namespace EcomProject_JimmyRebecca.Controllers
     public class CartsController : Controller
     {
         private readonly ICart _context;
-        private UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public CartsController(ICart context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
