@@ -11,6 +11,8 @@ namespace EcomProject_JimmyRebecca.Data
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            base.OnModelCreating(mb);
+
             mb.Entity<Product>().HasData(
                 new Product
                 {

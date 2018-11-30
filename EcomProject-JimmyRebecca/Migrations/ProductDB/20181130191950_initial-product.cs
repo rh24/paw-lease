@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EcomProject_JimmyRebecca.Migrations.ProductDB
 {
-    public partial class InitialProd : Migration
+    public partial class initialproduct : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
