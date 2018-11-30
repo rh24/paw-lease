@@ -15,13 +15,15 @@ namespace EcomProject_JimmyRebecca.Controllers
         private SignInManager<ApplicationUser> _signInManager;
         private readonly ILineItem _context;
         private readonly IEmailSender _email;
+        private readonly ICart _cart;
 
-        public CheckoutController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILineItem context, IEmailSender email)
+        public CheckoutController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILineItem context, IEmailSender email, ICart cart)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _email = email;
+            _cart = cart;
         }
 
         /// <summary>
@@ -43,6 +45,19 @@ namespace EcomProject_JimmyRebecca.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var lineItems = await _context.GetLineItems(cartId);
+
+
+            Cart newCart = new Cart()
+            {
+                User = user
+            };
+
+            await _cart.CreateCart(newCart);
+
+            var cart = await _cart.GetCart(cartId);
+            cart.OrderFulfilled = true;
+            await _cart.UpdateCart(cart);
+
             decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
 
             await _email.SendEmailAsync(user.Email, "Order Confirmation", CreateEmailString(lineItems, cartTotal));
