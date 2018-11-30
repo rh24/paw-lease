@@ -2,6 +2,7 @@
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
@@ -10,9 +11,9 @@ namespace EcomProject_JimmyRebecca.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        private readonly ICart _context;
+        private readonly ILineItem _context;
 
-        public CheckoutController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context)
+        public CheckoutController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -23,9 +24,13 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// This method brings in all of the items in the user's cart that they have purchased and passes it along to the Receipt.cshtml view.
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> Receipt(int cartId)
         {
-            var cart = await _context.GetCart(cartId);
+            var userId = _userManager.GetUserId(User);
+            var lineItems = await _context.GetLineItems(cartId);
+            decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
+            ViewBag.CartTotal = cartTotal;
             return View(cart);
         }
     }
