@@ -21,12 +21,13 @@ namespace EcomProject_JimmyRebecca.Controllers
         private readonly ApplicationDbContext _user;
         private readonly IEmailSender _email;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context, ApplicationDbContext user, IEmailSender _email)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICart context, ApplicationDbContext user, IEmailSender email)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _user = user;
+            _email = email;
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         private SignInManager<ApplicationUser> _signInManager;
         private readonly ILineItem _context;
 
-        public CheckoutController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public CheckoutController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILineItem context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -31,7 +31,7 @@ namespace EcomProject_JimmyRebecca.Controllers
             var lineItems = await _context.GetLineItems(cartId);
             decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
             ViewBag.CartTotal = cartTotal;
-            return View(cart);
+            return View(lineItems);
         }
     }
 }
