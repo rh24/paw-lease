@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcomProject_JimmyRebecca.Models
 {
@@ -12,6 +13,7 @@ namespace EcomProject_JimmyRebecca.Models
         public ICollection<LineItem> LineItems { get; set; }
 
         // A cart belongs to a user
+        [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
     }
 }
