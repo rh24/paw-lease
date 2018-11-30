@@ -47,16 +47,16 @@ namespace EcomProject_JimmyRebecca.Controllers
             var lineItems = await _context.GetLineItems(cartId);
 
 
-            Cart newCart = new Cart()
-            {
-                User = user
-            };
+            //Cart newCart = new Cart()
+            //{
+            //    User = user
+            //};
 
-            await _cart.CreateCart(newCart);
+            //await _cart.CreateCart(newCart);
 
-            var cart = await _cart.GetCart(cartId);
-            cart.OrderFulfilled = true;
-            await _cart.UpdateCart(cart);
+            //var cart = await _cart.GetCart(cartId);
+            //cart.OrderFulfilled = true;
+            //await _cart.UpdateCart(cart);
 
             decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
 
