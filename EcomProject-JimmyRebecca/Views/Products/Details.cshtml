@@ -32,11 +32,11 @@
         <select name="quantity" asp-items="@Html.GetEnumSelectList<EcomProject_JimmyRebecca.Models.Quantity>()"></select>
         @if (Model.IsCat)
         {
-            <button type="submit">Adopt this cat!</button>
+            <button type="submit">Leash this cat!</button>
         }
         else
         {
-            <button type="submit">Add to Basket</button>
+            <button type="submit">Add to Litterbox</button>
         }
     </form>
 </div>
