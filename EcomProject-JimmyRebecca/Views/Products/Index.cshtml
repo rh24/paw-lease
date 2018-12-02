@@ -4,47 +4,24 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 
-<div class="mw-100 d-flex justify-content-center">
-    <div class="w-75%">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SuggestedDonation)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SuggestedDonation)
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.ID">Details</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="mw-100 d-flex justify-content-between">
+    <div class="w-78 mw-100 card-container">
+        @foreach (var item in Model)
+        {
+            <div class="card w-33" style="width: 18rem;">
+                <img class="card-img-top" src="~/assets/cats/cats1.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <p class="card-text">Suggested Donation: @Html.DisplayFor(modelItem => item.SuggestedDonation)</p>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                </div>
+            </div>
+        }
     </div>
     @if (SignInManager.IsSignedIn(User))
     {
-        <div class="cart w-25">
+        <div class="cart w-20 mh-100% card">
             @await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
         </div>
     }
