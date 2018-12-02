@@ -12,6 +12,13 @@ body.landing-page {
     background-size: 100% 100%;
 }
 
+.cart {
+    display: block;
+    overflow: auto;
+    height: 100px;
+    margin-left: 15px;
+}
+
 .container{
     height: 90%;
 }

@@ -5,10 +5,10 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 <div class="mw-100 d-flex justify-content-between">
-    <div class="w-78 mw-100 card-container">
+    <div class="w-78 mw-100 card-container d-flex justify-content-center flex-wrap">
         @foreach (var item in Model)
         {
-            <div class="card w-33" style="width: 18rem;">
+            <div class="card w-25" style="width: 18rem;">
                 <img class="card-img-top" src="~/assets/cats/cats1.png" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
@@ -21,7 +21,7 @@
     </div>
     @if (SignInManager.IsSignedIn(User))
     {
-        <div class="cart w-20 mh-100% card">
+        <div>
             @await Component.InvokeAsync("ViewCart", UserManager.GetUserId(User))
         </div>
     }
