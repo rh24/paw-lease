@@ -15,7 +15,7 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -122,21 +122,23 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
 
                     b.Property<decimal>("SuggestedDonation");
 
+                    b.Property<string>("image_url");
+
                     b.HasKey("ID");
 
                     b.ToTable("Products");
 
                     b.HasData(
-                        new { ID = 1, Description = "It's garfield, who doesn't want garfield???", IsCat = true, ProductName = "Tabby", SuggestedDonation = 900m },
-                        new { ID = 2, Description = "Endless fun! For your cat too, I guess...", IsCat = false, ProductName = "Laser Pointer", SuggestedDonation = 30m },
-                        new { ID = 3, Description = "When you just don't wanna deal with them anymore", IsCat = false, ProductName = "Catnip", SuggestedDonation = 35m },
-                        new { ID = 4, Description = "Scottish folds are normal cats that fold their ears.", IsCat = true, ProductName = "Scottish Fold", SuggestedDonation = 1100m },
-                        new { ID = 5, Description = "They might not like it, but it'll keep them warm", IsCat = false, ProductName = "Cat-shirt", SuggestedDonation = 40m },
-                        new { ID = 6, Description = "This is where lion king started", IsCat = false, ProductName = "Cat Post", SuggestedDonation = 75m },
-                        new { ID = 7, Description = "It's like a bengal, but less dangerous.", IsCat = true, ProductName = "Bengal", SuggestedDonation = 900m },
-                        new { ID = 8, Description = "Buy a cat a home, they'll leave you forever.", IsCat = false, ProductName = "Cat-stle", SuggestedDonation = 120m },
-                        new { ID = 9, Description = "When you want mindless zombies...", IsCat = false, ProductName = "Cat Food", SuggestedDonation = 50m },
-                        new { ID = 10, Description = "If you enjoy vodka, this is your friend.", IsCat = true, ProductName = "Russian Blue", SuggestedDonation = 900m }
+                        new { ID = 1, Description = "It's garfield, who doesn't want garfield???", IsCat = true, ProductName = "Tabby", SuggestedDonation = 900m, image_url = "/assets/cats/tabby.jpg" },
+                        new { ID = 2, Description = "Endless fun! For your cat too, I guess...", IsCat = false, ProductName = "Laser Pointer", SuggestedDonation = 30m, image_url = "/assets/cats/laser_cat.jpg" },
+                        new { ID = 3, Description = "When you just don't wanna deal with them anymore", IsCat = false, ProductName = "Meowjiuana", SuggestedDonation = 35m, image_url = "/assets/cats/meowijuana.jpg" },
+                        new { ID = 4, Description = "Scottish folds are normal cats that fold their ears.", IsCat = true, ProductName = "Scottish Fold", SuggestedDonation = 1100m, image_url = "/assets/cats/scottish_fold.png" },
+                        new { ID = 5, Description = "They might not like it, but it'll keep them warm", IsCat = false, ProductName = "Cat-shirt", SuggestedDonation = 40m, image_url = "/assets/cats/sweater.jpg" },
+                        new { ID = 6, Description = "This is how lion king started.", IsCat = false, ProductName = "Simba Outfit", SuggestedDonation = 75m, image_url = "/assets/cats/lion_king.jpg" },
+                        new { ID = 7, Description = "It's like a normal cat, but fat.", IsCat = true, ProductName = "Fat Cat", SuggestedDonation = 900m, image_url = "/assets/cats/fat_cat.jpg" },
+                        new { ID = 8, Description = "Buy a cat a home, they'll leave you forever.", IsCat = false, ProductName = "Cat-stle", SuggestedDonation = 120m, image_url = "/assets/cats/cat-stle.gif" },
+                        new { ID = 9, Description = "When you want mindless zombies...", IsCat = false, ProductName = "Cat Food", SuggestedDonation = 50m, image_url = "/assets/cats/cat-food.png" },
+                        new { ID = 10, Description = "If you enjoy vodka, this is your friend.", IsCat = true, ProductName = "Russian Blue", SuggestedDonation = 900m, image_url = "/assets/cats/russian-blue.jpg" }
                     );
                 });
 

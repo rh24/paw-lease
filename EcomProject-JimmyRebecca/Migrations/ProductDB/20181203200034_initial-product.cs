@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EcomProject_JimmyRebecca.Migrations.ProductDB
 {
-    public partial class productidentity : Migration
+    public partial class initialproduct : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,6 +48,7 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
                     ProductName = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     SuggestedDonation = table.Column<decimal>(nullable: false),
+                    image_url = table.Column<string>(nullable: true),
                     IsCat = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -104,19 +105,19 @@ namespace EcomProject_JimmyRebecca.Migrations.ProductDB
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ID", "Description", "IsCat", "ProductName", "SuggestedDonation" },
+                columns: new[] { "ID", "Description", "IsCat", "ProductName", "SuggestedDonation", "image_url" },
                 values: new object[,]
                 {
-                    { 1, "It's garfield, who doesn't want garfield???", true, "Tabby", 900m },
-                    { 2, "Endless fun! For your cat too, I guess...", false, "Laser Pointer", 30m },
-                    { 3, "When you just don't wanna deal with them anymore", false, "Catnip", 35m },
-                    { 4, "Scottish folds are normal cats that fold their ears.", true, "Scottish Fold", 1100m },
-                    { 5, "They might not like it, but it'll keep them warm", false, "Cat-shirt", 40m },
-                    { 6, "This is where lion king started", false, "Cat Post", 75m },
-                    { 7, "It's like a bengal, but less dangerous.", true, "Bengal", 900m },
-                    { 8, "Buy a cat a home, they'll leave you forever.", false, "Cat-stle", 120m },
-                    { 9, "When you want mindless zombies...", false, "Cat Food", 50m },
-                    { 10, "If you enjoy vodka, this is your friend.", true, "Russian Blue", 900m }
+                    { 1, "It's garfield, who doesn't want garfield???", true, "Tabby", 900m, "/assets/cats/tabby.jpg" },
+                    { 2, "Endless fun! For your cat too, I guess...", false, "Laser Pointer", 30m, "/assets/cats/laser_cat.jpg" },
+                    { 3, "When you just don't wanna deal with them anymore", false, "Meowjiuana", 35m, "/assets/cats/meowijuana.jpg" },
+                    { 4, "Scottish folds are normal cats that fold their ears.", true, "Scottish Fold", 1100m, "/assets/cats/scottish_fold.png" },
+                    { 5, "They might not like it, but it'll keep them warm", false, "Cat-shirt", 40m, "/assets/cats/sweater.jpg" },
+                    { 6, "This is how lion king started.", false, "Simba Outfit", 75m, "/assets/cats/lion_king.jpg" },
+                    { 7, "It's like a normal cat, but fat.", true, "Fat Cat", 900m, "/assets/cats/fat_cat.jpg" },
+                    { 8, "Buy a cat a home, they'll leave you forever.", false, "Cat-stle", 120m, "/assets/cats/cat-stle.gif" },
+                    { 9, "When you want mindless zombies...", false, "Cat Food", 50m, "/assets/cats/cat-food.png" },
+                    { 10, "If you enjoy vodka, this is your friend.", true, "Russian Blue", 900m, "/assets/cats/russian-blue.jpg" }
                 });
 
             migrationBuilder.CreateIndex(

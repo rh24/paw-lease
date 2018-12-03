@@ -9,7 +9,7 @@
         @foreach (var item in Model)
         {
             <div class="card w-25" style="width: 18rem;">
-                <img class="card-img-top" src="~/assets/cats/cats1.png" alt="Card image cap">
+                <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.image_url)" alt="@Html.DisplayFor(modelItem => item.ProductName)">
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>

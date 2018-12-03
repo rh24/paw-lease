@@ -62,6 +62,7 @@ namespace EcomProject_JimmyRebecca.Migrations
                     ProductName = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     SuggestedDonation = table.Column<decimal>(nullable: false),
+                    image_url = table.Column<string>(nullable: true),
                     IsCat = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
