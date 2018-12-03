@@ -3,6 +3,7 @@ using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Components
@@ -41,8 +42,10 @@ namespace EcomProject_JimmyRebecca.Components
                     .Include(c => c.User)
                     .FirstOrDefaultAsync(c => c.User.Id == user.Id && !c.OrderFulfilled);
 
-                var li = await _liContext.GetLineItems(cart.ID);
-                return View(li);
+                var lineItems = await _liContext.GetLineItems(cart.ID);
+                decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
+                ViewBag.CartTotal = cartTotal;
+                return View(lineItems);
             }
 
             return View();
