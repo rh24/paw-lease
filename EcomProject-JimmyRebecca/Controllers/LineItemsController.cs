@@ -1,14 +1,15 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
+    [Authorize(Policy = "CatLover")]
     public class LineItemsController : Controller
     {
         private readonly ILineItem _context;
@@ -90,7 +91,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Active", "Carts", new { userID = _userManager.GetUserId(User)});
+                return RedirectToAction("Active", "Carts", new { userID = _userManager.GetUserId(User) });
             }
             return View(lineItem);
         }
