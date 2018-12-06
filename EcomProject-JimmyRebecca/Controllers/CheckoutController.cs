@@ -1,8 +1,10 @@
 ﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,13 +33,14 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Receipt(int cartId)
+        public async Task<IActionResult> Receipt(Order order)
         {
             var userId = _userManager.GetUserId(User);
-            var lineItems = await _context.GetLineItems(cartId);
+            var lineItems = await _context.GetLineItems(order.CartID);
             decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
             ViewBag.CartTotal = cartTotal;
-            return View(lineItems);
+            order.OrderItems = lineItems.ToList();
+            return View(order);
         }
 
         [HttpGet]
@@ -67,7 +70,30 @@ namespace EcomProject_JimmyRebecca.Controllers
         [HttpGet]
         public async Task<IActionResult> Checkout()
         {
+            var fakeCreditCardNumbers = new SelectList(
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Selected = true, Text = "Visa", Value = "4824688742851460" },
+                    new SelectListItem { Selected = false, Text = "MasterCard", Value = "5337141091103247" }
+                }, "Value", "Text");
+
+            ViewBag.FakeCreditCardNumbers = fakeCreditCardNumbers;
+
+            var cart = await _cart.GetCartByUserId(_userManager.GetUserId(User));
+
+            ViewBag.Cart = cart;
+
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostReceipt(Order order)
+        {
+            var userId = _userManager.GetUserId(User);
+            var lineItems = await _context.GetLineItems(order.CartID);
+            decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
+            ViewBag.CartTotal = cartTotal;
+            return RedirectToAction("Receipt", order);
         }
 
         private string CreateEmailString(IEnumerable<LineItem> lineItems, decimal total)

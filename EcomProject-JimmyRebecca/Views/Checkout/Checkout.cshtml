@@ -1,7 +1,53 @@
-﻿
+﻿@model EcomProject_JimmyRebecca.Models.ViewModels.Order
+@using Microsoft.AspNetCore.Identity
+@using EcomProject_JimmyRebecca.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Checkout";
 }
-
 <h2>Checkout</h2>
-
+<label>Credit Card</label>
+<form asp-action="PostReceipt">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="control-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CreditCardNumber" class="control-label"></label>
+        @Html.DropDownListFor(m => m.CreditCardNumber, ViewBag.FakeCreditCardNumbers as SelectList)
+        <span asp-validation-for="CreditCardNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BillingAddress" class="control-label"></label>
+        <input asp-for="BillingAddress" class="form-control" />
+        <span asp-validation-for="BillingAddress" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="OrderItems" class="form-control" value="@ViewBag.Cart.LineItems" />
+        <span asp-validation-for="OrderItems" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="Cart" class="form-control" value="@ViewBag.Cart" />
+        <span asp-validation-for="Cart" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="CartID" class="form-control" value="@ViewBag.Cart.ID" />
+        <span asp-validation-for="CartID" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Submit Order" class="btn btn-default" />
+    </div>
+</form>
