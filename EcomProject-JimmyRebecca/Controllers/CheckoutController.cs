@@ -1,5 +1,6 @@
 ﻿using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -66,7 +67,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Checkout()
+        public IActionResult Checkout()
         {
             var fakeCreditCardNumbers = new SelectList(
                 new List<SelectListItem>
@@ -74,6 +75,27 @@ namespace EcomProject_JimmyRebecca.Controllers
                     new SelectListItem { Selected = true, Text = "Visa", Value = "4824688742851460" },
                     new SelectListItem { Selected = false, Text = "MasterCard", Value = "5337141091103247" }
                 }, "Value", "Text");
+
+            ViewBag.FakeCreditCardNumbers = fakeCreditCardNumbers;
+
+            var cart = _cart.GetCartByUserId(_userManager.GetUserId(User));
+
+            ViewBag.Cart = cart;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Checkout([Bind("CreditCardNumber,CartID,Cart,OrderItems,FirstName,LastName,Address,PhoneNumber")] Order order)
+        {
+            var fakeCreditCardNumbers = new SelectList(
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Selected = true, Text = "Visa", Value = "4824688742851460" },
+                    new SelectListItem { Selected = false, Text = "MasterCard", Value = "5337141091103247" }
+                }, "Value", "Text");
+
+            ViewBag.FakeCreditCardNumbers = fakeCreditCardNumbers;
 
             return View();
         }
