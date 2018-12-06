@@ -3,6 +3,7 @@ using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,6 +68,13 @@ namespace EcomProject_JimmyRebecca.Controllers
         [HttpGet]
         public async Task<IActionResult> Checkout()
         {
+            var fakeCreditCardNumbers = new SelectList(
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Selected = true, Text = "Visa", Value = "4824688742851460" },
+                    new SelectListItem { Selected = false, Text = "MasterCard", Value = "5337141091103247" }
+                }, "Value", "Text");
+
             return View();
         }
 
