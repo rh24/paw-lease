@@ -60,14 +60,20 @@ namespace EcomProject_JimmyRebecca.Controllers
             decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
 
             await _email.SendEmailAsync(user.Email, "Order Confirmation", CreateEmailString(lineItems, cartTotal));
-            
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
+        {
             return View();
         }
 
         private string CreateEmailString(IEnumerable<LineItem> lineItems, decimal total)
         {
             string email = $"<h2>Receipt for Order {lineItems.First().CartID}</h2>";
-            foreach(LineItem li in lineItems)
+            foreach (LineItem li in lineItems)
             {
                 email += $"<div><h5>{li.Product.ProductName}</h5><p> Price: {li.Product.SuggestedDonation}</p><p>Quantity: {(int)li.Quantity}</p></div>";
             }

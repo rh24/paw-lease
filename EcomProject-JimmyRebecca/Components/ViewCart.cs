@@ -1,6 +1,7 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace EcomProject_JimmyRebecca.Components
         private readonly ProductDBContext _context;
         private readonly ApplicationDbContext _userContext;
         private readonly ILineItem _liContext;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
 
         /// <summary>
