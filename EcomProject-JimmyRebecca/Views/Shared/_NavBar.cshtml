@@ -31,12 +31,11 @@
                 </a>
                 <div class="dropdown-menu text-secondary" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item text-secondary" asp-action="../Account/Register">Edit Profile In Razor View</a>
-                    <a class="dropdown-item text-secondary" asp-action="../UserProfile/Edit">Edit Profile In Razor Page</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-secondary" asp-action="../Account/Logout">Log Out</a>
                 </div>
             </li>
-
+            <li><a class="dropdown-item text-secondary" asp-page="/Details.cshtml">Edit Profile In Razor Page</a></li>
         }
         else
         {

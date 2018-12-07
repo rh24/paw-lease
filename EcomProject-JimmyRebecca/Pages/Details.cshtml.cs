@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EcomProject_JimmyRebecca.Data;
-using EcomProject_JimmyRebecca.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
-namespace EcomProject_JimmyRebecca.Views.Pages
+namespace EcomProject_JimmyRebecca.Pages
 {
     public class DetailsModel : PageModel
     {
@@ -18,6 +15,17 @@ namespace EcomProject_JimmyRebecca.Views.Pages
         {
             _context = context;
         }
+
+        public string Email { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The passwords don't match!")]
+        [Display(Name = "Confirm Password")]
+        public string PaswordConfirmation { get; set; }
 
         public UserProfile UserProfile { get; set; }
 
