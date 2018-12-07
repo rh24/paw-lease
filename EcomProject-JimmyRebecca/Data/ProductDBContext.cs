@@ -1,5 +1,6 @@
 ﻿using EcomProject_JimmyRebecca.Models;
 using Microsoft.EntityFrameworkCore;
+using EcomProject_JimmyRebecca.Models.ViewModels;
 
 namespace EcomProject_JimmyRebecca.Data
 {
@@ -110,5 +111,6 @@ namespace EcomProject_JimmyRebecca.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
+        public DbSet<EcomProject_JimmyRebecca.Models.ViewModels.UserProfile> UserProfile { get; set; }
     }
 }
