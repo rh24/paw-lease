@@ -14,9 +14,6 @@ namespace EcomProject_JimmyRebecca.Components
         private readonly ProductDBContext _context;
         private readonly ApplicationDbContext _userContext;
         private readonly ILineItem _liContext;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-
 
         /// <summary>
         /// Constructor injection
