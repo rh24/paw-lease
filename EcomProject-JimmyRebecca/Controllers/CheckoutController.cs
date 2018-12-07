@@ -73,8 +73,8 @@ namespace EcomProject_JimmyRebecca.Controllers
             var fakeCreditCardNumbers = new SelectList(
                 new List<SelectListItem>
                 {
-                    new SelectListItem { Selected = true, Text = "Visa", Value = "4824688742851460" },
-                    new SelectListItem { Selected = false, Text = "MasterCard", Value = "5337141091103247" }
+                    new SelectListItem { Selected = true, Text = "Visa", Value = "xxxx-xxxx-xxxx-1460" },
+                    new SelectListItem { Selected = false, Text = "MasterCard", Value = "xxxx-xxxx-xxxx-3247" }
                 }, "Value", "Text");
 
             ViewBag.FakeCreditCardNumbers = fakeCreditCardNumbers;
