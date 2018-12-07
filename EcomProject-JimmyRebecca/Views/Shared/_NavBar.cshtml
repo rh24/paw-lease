@@ -18,7 +18,7 @@
             </li>
         }
         <li class="nav-item">
-            <a class="nav-link active text-secondary" asp-action="../Admin/Index">Admin Console</a>
+            <a class="nav-link active text-secondary" asp-controller="Admin" asp-action="Index">Admin Console</a>
         </li>
         <li class="nav-item">
             <a class="nav-link active text-secondary" asp-action="Active" asp-controller="Carts" asp-route-userId="@UserManager.GetUserId(User)">Shopping Cart</a>
