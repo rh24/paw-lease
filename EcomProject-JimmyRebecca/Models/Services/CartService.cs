@@ -29,7 +29,7 @@ namespace EcomProject_JimmyRebecca.Models.Services
 
         public async Task<Cart> GetCart(int? id)
         {
-            return await _context.Carts.FirstOrDefaultAsync(c => c.ID == id);
+            return await _context.Carts.Include(c => c.LineItems).FirstOrDefaultAsync(c => c.ID == id);
         }
 
         public async Task<Cart> GetCartByUserId(string userId)
@@ -39,7 +39,7 @@ namespace EcomProject_JimmyRebecca.Models.Services
 
         public async Task<IEnumerable<Cart>> GetCarts()
         {
-            return await _context.Carts.ToListAsync();
+            return await _context.Carts.Include(c => c.LineItems).ToListAsync();
         }
 
         public async Task UpdateCart(Cart cart)
