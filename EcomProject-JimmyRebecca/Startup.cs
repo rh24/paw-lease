@@ -34,10 +34,10 @@ namespace EcomProject_JimmyRebecca
                 .AddDefaultTokenProviders();
 
             services.AddDbContext<ProductDBContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("ProdDB")));
+            options.UseSqlServer(Configuration.GetConnectionString("Defaultconnection")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("ProdIdentityDB")));
+            options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
             services.AddAuthorization(options =>
             {

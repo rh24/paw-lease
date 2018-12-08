@@ -5,27 +5,38 @@
     Layout = "_Layout";
 
 }
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-page="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                ProductName
+                @Html.DisplayNameFor(model => model.Product[0].ProductName)
             </th>
             <th>
-                Description
+                @Html.DisplayNameFor(model => model.Product[0].Description)
             </th>
             <th>
-                Suggested Donation
+                @Html.DisplayNameFor(model => model.Product[0].SuggestedDonation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].image_url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].IsCat)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Products)
+        @foreach (var item in Model.Product)
         {
             <tr>
                 <td>
@@ -38,9 +49,15 @@
                     @Html.DisplayFor(modelItem => item.SuggestedDonation)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    @Html.DisplayFor(modelItem => item.image_url)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsCat)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
                 </td>
             </tr>
         }

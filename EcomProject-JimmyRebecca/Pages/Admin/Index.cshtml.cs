@@ -1,26 +1,28 @@
-using EcomProject_JimmyRebecca.Data;
-using EcomProject_JimmyRebecca.Models;
-using EcomProject_JimmyRebecca.Models.Interfaces;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using EcomProject_JimmyRebecca.Models;
+using EcomProject_JimmyRebecca.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EcomProject_JimmyRebecca.Pages.Admin
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class IndexModel : PageModel
     {
-        private readonly IProduct _product;
-        public IEnumerable<Product> Products { get; set; }
+        private readonly ProductDBContext _context;
 
-        public IndexModel(ProductDBContext context, IProduct product)
+        public IndexModel(ProductDBContext context)
         {
-            _product = product;
+            _context = context;
         }
 
-        public async Task OnGet()
+        public IList<Product> Product { get;set; }
+
+        public async Task OnGetAsync()
         {
-            Products = await _product.GetProducts();
+            Product = await _context.Products.ToListAsync();
         }
     }
 }
