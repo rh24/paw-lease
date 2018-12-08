@@ -2,6 +2,7 @@
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Models.Services
@@ -46,6 +47,11 @@ namespace EcomProject_JimmyRebecca.Models.Services
         {
             _context.Update(cart);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Cart>> GetPastOrdersCarts()
+        {
+            return await _context.Carts.Include(c => c.LineItems).ThenInclude(li => li.Product).OrderByDescending(c => c.ID).Take(10).ToListAsync();
         }
     }
 }

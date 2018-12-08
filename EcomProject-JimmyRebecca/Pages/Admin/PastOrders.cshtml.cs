@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EcomProject_JimmyRebecca.Pages.Admin
@@ -19,11 +16,11 @@ namespace EcomProject_JimmyRebecca.Pages.Admin
             _context = context;
         }
 
-        public IList<Cart> Carts { get; set; }
+        public IEnumerable<Cart> Carts { get; set; }
 
         public async Task OnGetAsync()
         {
-            Carts = await _context.GetCarts();
+            Carts = await _context.GetPastOrdersCarts();
         }
     }
 }
