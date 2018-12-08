@@ -11,17 +11,16 @@ namespace EcomProject_JimmyRebecca.Pages.Admin
     public class IndexModel : PageModel
     {
         private readonly IProduct _product;
-        private readonly ProductDBContext _context;
-        public List<Product> Products { get; set; }
+        public IEnumerable<Product> Products { get; set; }
 
-        public IndexModel(ProductDBContext context)
+        public IndexModel(ProductDBContext context, IProduct product)
         {
-            _context = context;
+            _product = product;
         }
 
         public async Task OnGet()
         {
-            Products = await _context.Products.ToListAsync();
+            Products = await _product.GetProducts();
         }
     }
 }
