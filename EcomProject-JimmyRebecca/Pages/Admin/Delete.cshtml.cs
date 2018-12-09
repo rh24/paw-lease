@@ -8,11 +8,16 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EcomProject_JimmyRebecca.Pages.Admin
 {
+    // only allows admins to access
     [Authorize(Roles = UserRoles.Admin)]
     public class DeleteModel : PageModel
     {
         private readonly ProductDBContext _context;
 
+        /// <summary>
+        /// Constructs past orders with DB context
+        /// </summary>
+        /// <param name="context">DB Context</param>
         public DeleteModel(ProductDBContext context)
         {
             _context = context;
@@ -21,6 +26,11 @@ namespace EcomProject_JimmyRebecca.Pages.Admin
         [BindProperty]
         public Product Product { get; set; }
 
+        /// <summary>
+        /// Gets the details of the product
+        /// </summary>
+        /// <param name="id">the id of the product</param>
+        /// <returns>returns a page with the details of the product</returns>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -37,6 +47,11 @@ namespace EcomProject_JimmyRebecca.Pages.Admin
             return Page();
         }
 
+        /// <summary>
+        /// Deletes the product on post
+        /// </summary>
+        /// <param name="id">id of product to delete</param>
+        /// <returns>Returns a page</returns>
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)

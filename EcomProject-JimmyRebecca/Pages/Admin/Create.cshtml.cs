@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EcomProject_JimmyRebecca.Pages.Admin
 {
+    // only allows admins to access
     [Authorize(Roles = UserRoles.Admin)]
     public class CreateModel : PageModel
     {
@@ -17,6 +18,10 @@ namespace EcomProject_JimmyRebecca.Pages.Admin
             _context = context;
         }
 
+        /// <summary>
+        /// Constructs past orders with DB context
+        /// </summary>
+        /// <param name="context">DB Context</param>
         public IActionResult OnGet()
         {
             return Page();
@@ -25,6 +30,10 @@ namespace EcomProject_JimmyRebecca.Pages.Admin
         [BindProperty]
         public Product Product { get; set; }
 
+        /// <summary>
+        /// Adds the product on post
+        /// </summary>
+        /// <returns>Returns a page</returns>
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
