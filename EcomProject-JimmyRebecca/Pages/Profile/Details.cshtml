@@ -69,4 +69,9 @@
     </dl>
 </div>
 <div>
+    @Html.DisplayNameFor(model => model.UserProfile.LastFiveOrders)
+    @foreach (var cart in Model.UserProfile.LastFiveOrders)
+    {
+        @await Component.InvokeAsync("ViewCart", cart.LineItems)
+    }
 </div>

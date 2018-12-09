@@ -25,19 +25,18 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
         [BindProperty]
         public UserProfile UserProfile { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            string userId = _userManager.GetUserId(User);
+            ApplicationUser foundUser = await _userContext.Users.FirstOrDefaultAsync(m => m.Id == userId);
 
-            UserProfile = await _context.UserProfile.FirstOrDefaultAsync(m => m.ID == id);
-
-            if (UserProfile == null)
+            // Initialize new UserProfile view model based on claims of foundUser
+            UserProfile = new UserProfile
             {
-                return NotFound();
-            }
+                Email = foundUser.Email
+            };
+
+
             return Page();
         }
 
@@ -48,15 +47,15 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
                 return Page();
             }
 
-            _context.Attach(UserProfile).State = EntityState.Modified;
+            _userContext.Attach(UserProfile).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _userContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserProfileExists(UserProfile.ID))
+                if (!UserProfileExists())
                 {
                     return NotFound();
                 }
@@ -69,9 +68,10 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
             return RedirectToPage("./Index");
         }
 
-        private bool UserProfileExists(int id)
+        private bool UserProfileExists()
         {
-            return _context.UserProfile.Any(e => e.ID == id);
+            string userId = _userManager.GetUserId(User);
+            return _userContext.Users.Any(e => e.Id == userId);
         }
     }
 }

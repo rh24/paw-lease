@@ -2,8 +2,10 @@
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Pages.Profile
@@ -34,14 +36,11 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
 
         public UserProfile UserProfile { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
             var foundUser = await _userManager.GetUserAsync(User);
+
+            if (foundUser == null) return NotFound();
 
             // Initialize new UserProfile view model based on claims of foundUser
             UserProfile = new UserProfile
@@ -49,11 +48,11 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
                 Email = foundUser.Email
             };
 
-            //if (UserProfile == null)
-            //{
-            //    return NotFound();
-            //}
-            //return Page();
+            // Get last 5 carts
+            var lastFiveCarts = _context.Carts.Where(c => c.User.Id == foundUser.Id).Take(5);
+            UserProfile.LastFiveOrders = lastFiveCarts.ToList();
+
+            return Page();
         }
     }
 }
