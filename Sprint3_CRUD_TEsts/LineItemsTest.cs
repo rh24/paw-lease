@@ -42,12 +42,12 @@ namespace Sprint3_CRUD_Tests
         }
 
         /// <summary>
-        /// Tests adding LI to the db
+        /// Tests creating LI to the db
         /// </summary>
         [Fact]
-        public async void AddLineItemToDBTest()
+        public async void CreateLineItemDBTest()
         {
-            DbContextOptions<ProductDBContext> options = new DbContextOptionsBuilder<ProductDBContext>().UseInMemoryDatabase("AddLI").Options;
+            DbContextOptions<ProductDBContext> options = new DbContextOptionsBuilder<ProductDBContext>().UseInMemoryDatabase("CreateLI").Options;
             using (ProductDBContext context = new ProductDBContext(options))
             {
                 LineItem li = new LineItem()
@@ -94,6 +94,35 @@ namespace Sprint3_CRUD_Tests
                 LineItem result = await context.LineItems.FirstOrDefaultAsync(item => item.ID == 1);
 
                 Assert.Equal(2, result.ProductID);
+            }
+        }
+
+        /// <summary>
+        /// Tests deleting LI in the DB
+        /// </summary>
+        [Fact]
+        public async void DeleteLineItemDBTest()
+        {
+            DbContextOptions<ProductDBContext> options = new DbContextOptionsBuilder<ProductDBContext>().UseInMemoryDatabase("DeleteLI").Options;
+            using (ProductDBContext context = new ProductDBContext(options))
+            {
+                LineItem li = new LineItem()
+                {
+                    ID = 1,
+                    ProductID = 1,
+                    Quantity = Quantity.two
+                };
+
+                context.LineItems.Add(li);
+                await context.SaveChangesAsync();
+
+                LineItem found = await context.LineItems.FirstOrDefaultAsync(item => item.ID == 1);
+                context.LineItems.Remove(found);
+                await context.SaveChangesAsync();
+
+                LineItem result = await context.LineItems.FirstOrDefaultAsync(item => item.ID == 1);
+
+                Assert.True(result == null);
             }
         }
     }
