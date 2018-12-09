@@ -14,6 +14,10 @@ namespace EcomProject_JimmyRebecca.Pages.Admin
     {
         private readonly ProductDBContext _context;
 
+        /// <summary>
+        /// Constructs past orders with DB context
+        /// </summary>
+        /// <param name="context">DB Context</param>
         public DetailsModel(ProductDBContext context)
         {
             _context = context;
@@ -21,6 +25,11 @@ namespace EcomProject_JimmyRebecca.Pages.Admin
 
         public Product Product { get; set; }
 
+        /// <summary>
+        /// Gets the details of the product
+        /// </summary>
+        /// <param name="id">the id of the product</param>
+        /// <returns>returns a page with the details of the product</returns>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
