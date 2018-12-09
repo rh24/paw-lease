@@ -5,6 +5,8 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
 {
     public class Order
     {
+        [Required]
+        [Display(Name = "Credit Card Number")]
         public string CreditCardNumber { get; set; }
         public int CartID { get; set; }
 
