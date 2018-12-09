@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EcomProject_JimmyRebecca.Pages.Admin
 {
+    // only allows admins to access
     [Authorize(Roles = UserRoles.Admin)]
     public class IndexModel : PageModel
     {
