@@ -72,7 +72,7 @@ namespace Sprint3_CRUD_Tests
         [Fact]
         public async void UpdateLineItemDBTest()
         {
-            DbContextOptions<ProductDBContext> options = new DbContextOptionsBuilder<ProductDBContext>().UseInMemoryDatabase("AddLI").Options;
+            DbContextOptions<ProductDBContext> options = new DbContextOptionsBuilder<ProductDBContext>().UseInMemoryDatabase("UpdateLI").Options;
             using (ProductDBContext context = new ProductDBContext(options))
             {
                 LineItem li = new LineItem()
@@ -88,6 +88,7 @@ namespace Sprint3_CRUD_Tests
                 LineItem found = await context.LineItems.FirstOrDefaultAsync(item => item.ID == 1);
 
                 found.ProductID = 2;
+                context.LineItems.Update(found);
                 await context.SaveChangesAsync();
 
                 LineItem result = await context.LineItems.FirstOrDefaultAsync(item => item.ID == 1);
