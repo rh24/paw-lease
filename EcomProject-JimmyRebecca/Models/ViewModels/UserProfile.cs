@@ -7,10 +7,6 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
     // Has both user information and user's past 5 orders
     public class UserProfile
     {
-        // Testing to see if this data annotation fixes this error: [12/9/2018 11:21:30 AM Informational] [xUnit.net 00:00:03.2364672]       System.InvalidOperationException : The entity type 'UserProfile' requires a primary key to be defined.
-        [Key]
-        public int ID { get; set; }
-
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -46,6 +42,6 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
         public string PaswordConfirmation { get; set; }
 
         // User's last 5 carts
-        public ICollection<Cart> LastFiveOrders { get; set; }
+        public IEnumerable<Cart> LastFiveOrders { get; set; }
     }
 }
