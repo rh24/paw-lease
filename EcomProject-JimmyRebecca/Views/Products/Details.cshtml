@@ -3,73 +3,30 @@
 @using EcomProject_JimmyRebecca.Models
 @inject UserManager<ApplicationUser> UserManager
 
-
-<div class="mw-100 d-flex justify-content-between">
-    <div class="w-78 mw-100 card-container d-flex justify-content-center flex-wrap">
-        <div class="card w-25" style="width: 18rem;">
-            <img class="card-img-top" src="@Model.image_url" alt="@Model.ProductName">
-            <div class="card-body">
-                <h5 class="card-title">@Model.ProductName</h5>
-                <p class="card-text">@Model.Description</p>
-                <p class="card-text">Suggested Donation: @Model.SuggestedDonation</p>
-                <form asp-action="Create" asp-controller="LineItems" method="post">
-                    <input type="hidden" name="productId" value="@Model.ID" />
-                    <input type="hidden" name="userId" value="@UserManager.GetUserId(User)" />
-                    <label name="quantity"></label>
-                    <select name="quantity" asp-items="@Html.GetEnumSelectList<EcomProject_JimmyRebecca.Models.Quantity>()"></select>
-                    @if (Model.IsCat)
-                    {
-                        <button type="submit">Leash this cat!</button>
-                    }
-                    else
-                    {
-                        <button type="submit">Add to Litterbox</button>
-                    }
-                </form>
-            </div>
+<div class="w-100 card-container d-flex justify-content-center flex-wrap">
+    <div class="card w-25" style="width: 18rem;">
+        <img class="card-img-top" src="@Model.image_url" alt="@Model.ProductName">
+        <div class="card-body">
+            <h5 class="card-title">@Model.ProductName</h5>
+            <p class="card-text">@Model.Description</p>
+            <p class="card-text">Suggested Donation: @Model.SuggestedDonation</p>
+            <form asp-action="Create" asp-controller="LineItems" method="post">
+                <input type="hidden" name="productId" value="@Model.ID" />
+                <input type="hidden" name="userId" value="@UserManager.GetUserId(User)" />
+                <label name="quantity"></label>
+                <select name="quantity" asp-items="@Html.GetEnumSelectList<EcomProject_JimmyRebecca.Models.Quantity>()"></select>
+                @if (Model.IsCat)
+                {
+                    <button type="submit">Leash this cat!</button>
+                }
+                else
+                {
+                    <button type="submit">Add to Litterbox</button>
+                }
+            </form>
         </div>
     </div>
 </div>
-
-
-    @*<div>
-        <h4>Product</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ProductName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.SuggestedDonation)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.SuggestedDonation)
-            </dd>
-        </dl>
-        <form asp-action="Create" asp-controller="LineItems" method="post">
-            <input type="hidden" name="productId" value="@Model.ID" />
-            <input type="hidden" name="userId" value="@UserManager.GetUserId(User)" />
-            <label name="quantity"></label>
-            <select name="quantity" asp-items="@Html.GetEnumSelectList<EcomProject_JimmyRebecca.Models.Quantity>()"></select>
-            @if (Model.IsCat)
-            {
-                <button type="submit">Leash this cat!</button>
-            }
-            else
-            {
-                <button type="submit">Add to Litterbox</button>
-            }
-        </form>
-    </div>*@
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+<div class="text-center">
+    <a asp-action="Index">Back to List</a>
+</div>
