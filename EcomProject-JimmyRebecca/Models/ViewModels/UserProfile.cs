@@ -45,6 +45,7 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
         public string PaswordConfirmation { get; set; }
 
         // User's last 5 carts
+        [Display(Name = "Last Five Orders")]
         public ICollection<Cart> LastFiveOrders { get; set; }
     }
 }

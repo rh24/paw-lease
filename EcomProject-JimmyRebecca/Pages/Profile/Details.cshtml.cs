@@ -4,7 +4,6 @@ using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,17 +22,6 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
             _userManager = userManager;
         }
 
-        public string Email { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The passwords don't match!")]
-        [Display(Name = "Confirm Password")]
-        public string PaswordConfirmation { get; set; }
-
         public UserProfile UserProfile { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -45,7 +33,12 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
             // Initialize new UserProfile view model based on claims of foundUser
             UserProfile = new UserProfile
             {
-                Email = foundUser.Email
+                Email = foundUser.Email,
+                FirstName = foundUser.FirstName,
+                LastName = foundUser.LastName,
+                LovesCats = foundUser.LovesCats,
+                Address = foundUser.Address,
+                Birthday = foundUser.Birthday
             };
 
             var userCarts = _context.Carts.Where(c => c.User.Id == foundUser.Id);
