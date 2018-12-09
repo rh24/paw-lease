@@ -7,7 +7,6 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
     // Has both user information and user's past 5 orders
     public class UserProfile
     {
-        public int ID { get; set; }
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
