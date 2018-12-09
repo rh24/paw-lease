@@ -3,7 +3,7 @@ using EcomProject_JimmyRebecca.Models;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace Sprint3_CRUD_TEsts
+namespace Sprint3_CRUD_Tests
 {
     public class UnitTest1
     {
