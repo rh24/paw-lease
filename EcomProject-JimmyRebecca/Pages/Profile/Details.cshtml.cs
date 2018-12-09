@@ -1,4 +1,5 @@
-﻿using EcomProject_JimmyRebecca.Models;
+﻿using EcomProject_JimmyRebecca.Data;
+using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,7 +14,7 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
         private readonly EcomProject_JimmyRebecca.Data.ApplicationDbContext _userContext;
         private UserManager<ApplicationUser> _userManager;
 
-        public DetailsModel(EcomProject_JimmyRebecca.Data.ProductDBContext context, EcomProject_JimmyRebecca.Data.ApplicationDbContext userContext, UserManager<ApplicationUser> userManager)
+        public DetailsModel(ProductDBContext context, ApplicationDbContext userContext, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userContext = userContext;
