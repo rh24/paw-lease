@@ -25,10 +25,10 @@
     <Content Update="Views\Admin\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Admin\Index.cshtml">
+    <Content Update="Views\Basket\Checkout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Basket\Checkout.cshtml">
+    <Content Update="Views\Shared\_error.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
