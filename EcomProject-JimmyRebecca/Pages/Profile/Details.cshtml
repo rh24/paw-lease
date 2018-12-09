@@ -57,12 +57,10 @@
     @Html.DisplayNameFor(model => model.UserProfile.LastFiveOrders)
     @foreach (var cart in Model.UserProfile.LastFiveOrders)
     {
-        @if (cart != null && cart.LineItems != null)
+        @if (cart != null)
         {
-            @foreach (var lineItem in cart.LineItems)
-            {
-                await Html.RenderPartialAsync("_PastOrder", lineItem);
-            }
+
+            await Html.RenderPartialAsync("_PastOrder", cart);
         }
     }
 </div>
