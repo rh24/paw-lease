@@ -1,6 +1,5 @@
 ﻿using EcomProject_JimmyRebecca.Models;
 using Microsoft.EntityFrameworkCore;
-using EcomProject_JimmyRebecca.Models.ViewModels;
 
 namespace EcomProject_JimmyRebecca.Data
 {
