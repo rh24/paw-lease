@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EcomProject_JimmyRebecca.Models.ViewModels
 {
@@ -13,10 +14,20 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
         public ICollection<LineItem> OrderItems { get; set; }
 
         // User information to capture
+        [Required]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        [Required]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Billing Address")]
         public string BillingAddress { get; set; }
+
+        [Required]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
     }
 }
