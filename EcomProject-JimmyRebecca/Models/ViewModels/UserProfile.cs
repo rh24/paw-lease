@@ -7,6 +7,9 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
     // Has both user information and user's past 5 orders
     public class UserProfile
     {
+        [Key]
+        public int ID { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -42,6 +45,7 @@ namespace EcomProject_JimmyRebecca.Models.ViewModels
         public string PaswordConfirmation { get; set; }
 
         // User's last 5 carts
-        public IEnumerable<Cart> LastFiveOrders { get; set; }
+        [Display(Name = "Last Five Orders")]
+        public ICollection<Cart> LastFiveOrders { get; set; }
     }
 }

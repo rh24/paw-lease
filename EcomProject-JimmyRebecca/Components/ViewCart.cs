@@ -1,7 +1,6 @@
 ﻿using EcomProject_JimmyRebecca.Data;
 using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
