@@ -72,6 +72,12 @@
     @Html.DisplayNameFor(model => model.UserProfile.LastFiveOrders)
     @foreach (var cart in Model.UserProfile.LastFiveOrders)
     {
-        @await Component.InvokeAsync("ViewCart", cart.LineItems)
+        @if (cart != null && cart.LineItems != null)
+        {
+            @foreach (var lineItem in cart.LineItems)
+            {
+                await Html.RenderPartialAsync("_PastOrder", lineItem);
+            }
+        }
     }
 </div>

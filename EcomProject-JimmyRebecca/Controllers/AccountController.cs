@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace EcomProject_JimmyRebecca.Controllers
 {
@@ -138,7 +137,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
             }
-            
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -253,7 +252,7 @@ namespace EcomProject_JimmyRebecca.Controllers
 
                     var match = admins.Where(admin => admin.Email.ToLower() == lvm.Email.ToLower());
 
-                    if(match.Count() != 0)
+                    if (match.Count() != 0)
                     {
                         return RedirectToAction("Index", "Admin");
                     }

@@ -3,7 +3,6 @@ using EcomProject_JimmyRebecca.Models;
 using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,20 +44,6 @@ namespace EcomProject_JimmyRebecca.Components
                 var lineItems = await _liContext.GetLineItems(cart.ID);
                 decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
                 ViewBag.CartTotal = cartTotal;
-                return View(lineItems);
-            }
-
-            return View();
-        }
-
-        public IViewComponentResult InvokeAsync(ICollection<LineItem> lineItems)
-        {
-            if (lineItems.Count() > 0)
-            {
-                //Cart cart = await _context.Carts
-                //    .Include(c => c.LineItems)
-                //    .Include(c => c.User)
-                //    .FirstOrDefaultAsync(c => c.User.Id == user.Id && !c.OrderFulfilled);
                 return View(lineItems);
             }
 

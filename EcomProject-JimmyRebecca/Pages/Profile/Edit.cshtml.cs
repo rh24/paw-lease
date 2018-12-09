@@ -16,10 +16,11 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
         private readonly ApplicationDbContext _userContext;
         private UserManager<ApplicationUser> _userManager;
 
-        public EditModel(ProductDBContext context, ApplicationDbContext userContext)
+        public EditModel(ProductDBContext context, ApplicationDbContext userContext, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userContext = userContext;
+            _userManager = userManager;
         }
 
         [BindProperty]

@@ -48,9 +48,17 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
                 Email = foundUser.Email
             };
 
+            var userCarts = _context.Carts.Where(c => c.User.Id == foundUser.Id);
+
             // Get last 5 carts
-            var lastFiveCarts = _context.Carts.Where(c => c.User.Id == foundUser.Id).Take(5);
-            UserProfile.LastFiveOrders = lastFiveCarts.ToList();
+            if (userCarts.Count() >= 5)
+            {
+                UserProfile.LastFiveOrders = userCarts.Take(5).ToList();
+            }
+            else
+            {
+                UserProfile.LastFiveOrders = userCarts.ToList();
+            }
 
             return Page();
         }
