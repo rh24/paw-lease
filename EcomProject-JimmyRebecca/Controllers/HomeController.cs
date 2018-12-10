@@ -11,7 +11,7 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// <summary>
         /// Returns the home page
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Home view</returns>
         public IActionResult Index()
         {
             return View();
