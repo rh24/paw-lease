@@ -1,14 +1,14 @@
 ﻿@using EcomProject_JimmyRebecca.Models
 @using System.Linq
-@model IEnumerable<EcomProject_JimmyRebecca.Models.LineItem>
+@model EcomProject_JimmyRebecca.Models.ViewModels.Order
 @{
     ViewData["Title"] = "Receipt";
 }
 @if (Model != null)
 {
-    <h2>Receipt for Order #@Model.First().CartID</h2>
+    <h2>Receipt for Order #@Model.CartID</h2>
 
-    foreach (var li in Model)
+    foreach (var li in Model.OrderItems)
     {
         <div>
             <h5>
@@ -20,6 +20,13 @@
     }
 
     <h4>Total: @ViewBag.CartTotal</h4>
+    <div>
+        <h5>Billed to:</h5>
+        <p>@Model.FirstName @Model.LastName</p>
+        <p>@Model.CreditCardNumber</p>
+        <p>@Model.BillingAddress</p>
+        <p>@Model.PhoneNumber</p>
+    </div>
 
-    <a asp-action="OrderProcessed" asp-route-cartId="@Model.First().CartID">Complete Purr-chase</a>
+    <a asp-action="OrderProcessed" asp-route-cartId="@Model.CartID">Complete Purr-chase</a>
 }

@@ -1,0 +1,32 @@
+﻿@model EcomProject_JimmyRebecca.Models.Cart
+@if (Model.LineItems.Count() > 0)
+{
+    <div>
+        <h4>Order #@Model.ID</h4>
+        <hr />
+        @foreach (var lineItem in Model.LineItems)
+        {
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => lineItem.Product)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => lineItem.Product.ProductName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => lineItem.Quantity)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => lineItem.Quantity)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => lineItem.Product.SuggestedDonation)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => lineItem.Product.SuggestedDonation)
+                </dd>
+            </dl>
+        }
+        <h6>Total: $@Model.LineItems.Sum(li => li.Product.SuggestedDonation * (decimal)li.Quantity)</h6>
+    </div>
+}
