@@ -122,7 +122,7 @@ namespace EcomProject_JimmyRebecca.Controllers
 
 
                     // make admins if emails are these
-                    if (ra.Email.ToLower() == "amanda@codefellows.com" || ra.Email.ToLower() == "jimmyn123@gmail.com" || ra.Email.ToLower() == "rebeccayhong@gmail.com")
+                    if (ra.Email.ToLower() == "amanda@codefellows.com" || ra.Email.ToLower() == "jimmyn123@gmail.com" || ra.Email.ToLower() == "rebeccayhong@gmail.com" || ra.Email.ToLower() == "jeffxmartinez@gmail.com")
                     {
                         await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
                     }
@@ -137,6 +137,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                     await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
             }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -246,6 +247,16 @@ namespace EcomProject_JimmyRebecca.Controllers
 
                 if (result.Succeeded)
                 {
+
+                    var admins = await _userManager.GetUsersInRoleAsync(UserRoles.Admin);
+
+                    var match = admins.Where(admin => admin.Email.ToLower() == lvm.Email.ToLower());
+
+                    if (match.Count() != 0)
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
                 else

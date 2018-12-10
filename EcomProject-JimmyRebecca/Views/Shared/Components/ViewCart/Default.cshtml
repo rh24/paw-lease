@@ -4,54 +4,37 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @model IEnumerable<EcomProject_JimmyRebecca.Models.LineItem>
 
-<h5></h5>
-<div class="w-15 card-container d-flex justify-content-center flex-wrap .cart">
+<div class="w-15">
+    <h5>Current Box: </h5>
     @if (Model != null)
     {
-        @foreach (var li in Model)
-        {
-            <div class="card w-80" style="width: 18rem;">
-                <img class="card-img-top" src="~/assets/cats/cats1.png" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => li.Product.ProductName)</h5>
-                    <p class="card-text">@Html.DisplayFor(modelItem => li.Product.ProductName)</p>
-                    <p class="card-text">Suggested Donation: @Html.DisplayFor(modelItem => li.Quantity)</p>
-                </div>
-            </div>
-        }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Product Name
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var li in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => li.Product.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => li.Quantity)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h5>Total: $@ViewBag.CartTotal</h5>
     }
 </div>
-
-
-    @*<div>
-            <h5>Current Box: </h5>
-            @if (Model != null)
-            {
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Product Name
-                            </th>
-                            <th>
-                                Quantity
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var li in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => li.Product.ProductName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => li.Quantity)
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-        </div>*@

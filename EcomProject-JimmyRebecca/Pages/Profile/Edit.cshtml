@@ -1,0 +1,61 @@
+﻿@page
+@model EcomProject_JimmyRebecca.Pages.Profile.EditModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+
+}
+@{
+    ViewData["Title"] = "Edit";
+}
+<h2>Edit</h2>
+<h4>User Profile</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserProfile.FirstName" class="control-label"></label>
+                <input asp-for="UserProfile.FirstName" class="form-control" />
+                <span asp-validation-for="UserProfile.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.LastName" class="control-label"></label>
+                <input asp-for="UserProfile.LastName" class="form-control" />
+                <span asp-validation-for="UserProfile.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.Email" class="control-label"></label>
+                <input asp-for="UserProfile.Email" class="form-control" />
+                <span asp-validation-for="UserProfile.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.Birthday" class="control-label"></label>
+                <input asp-for="UserProfile.Birthday" class="form-control" />
+                <span asp-validation-for="UserProfile.Birthday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.Address" class="control-label"></label>
+                <input asp-for="UserProfile.Address" class="form-control" />
+                <span asp-validation-for="UserProfile.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.Password" class="control-label"></label>
+                <input asp-for="UserProfile.Password" class="form-control" />
+                <span asp-validation-for="UserProfile.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserProfile.PaswordConfirmation" class="control-label"></label>
+                <input asp-for="UserProfile.PaswordConfirmation" class="form-control" />
+                <span asp-validation-for="UserProfile.PaswordConfirmation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>

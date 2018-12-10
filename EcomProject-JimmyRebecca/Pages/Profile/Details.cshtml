@@ -1,0 +1,66 @@
+﻿@page
+@model EcomProject_JimmyRebecca.Pages.Profile.DetailsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+
+}
+@{
+    ViewData["Title"] = "Details";
+}
+<div>
+    <h2>User Profile</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.AccountCreation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.AccountCreation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.Birthday)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.Birthday)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.Address)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.UserProfile.ID">Edit</a>
+</div>
+<div>
+    @Html.DisplayNameFor(model => model.UserProfile.LastFiveOrders)
+    @foreach (var cart in Model.UserProfile.LastFiveOrders)
+    {
+        @if (cart != null)
+        {
+
+            await Html.RenderPartialAsync("_PastOrder", cart);
+        }
+    }
+</div>

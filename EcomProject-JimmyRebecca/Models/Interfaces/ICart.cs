@@ -13,5 +13,6 @@ namespace EcomProject_JimmyRebecca.Models.Interfaces
         Task<Cart> GetCart(int? id);
         Task<Cart> GetCartByUserId(string userId);
         Task<IEnumerable<Cart>> GetCarts();
+        Task<IEnumerable<Cart>> GetPastOrdersCarts();
     }
 }

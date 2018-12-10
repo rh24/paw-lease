@@ -1,0 +1,60 @@
+﻿@page
+@model EcomProject_JimmyRebecca.Pages.Admin.PastOrdersModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+
+}
+@{
+    ViewData["Title"] = "Past Orders";
+}
+
+<h2>PastOrders</h2>
+
+@foreach (var cart in Model.Carts)
+{
+    <h4>Order #@cart.ID</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Suggested Donation
+                </th>
+                <th>
+                    Image URL
+                </th>
+                <th>
+                    Is A Cat
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in cart.LineItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.SuggestedDonation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.image_url)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.IsCat)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
