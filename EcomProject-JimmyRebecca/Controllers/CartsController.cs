@@ -165,6 +165,11 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(cart);
         }
 
+        private bool CartExists(int id)
+        {
+            return _context.GetCart(id) != null;
+        }
+
         // GET: Carts/Delete/5
         /// <summary>
         /// Deletes the cart with the specific id
