@@ -22,6 +22,14 @@ The claims captured include the typical identity claims like name, birth date, a
 
 We cherish our cats as much as we cherish our children. Therefore, our policy is that only those who love cats may have a cat. Adoption is only an option to those with cats in their hearts.
 
+# Entity Model Relationships
+
+* User can have many Carts
+* Cart has one User
+* Cart has many LineItems
+* LineItem has one Product, has one Cart
+* Cart has many Products through LineItems (one Cart -> many LineItems <- one Product)
+
 # Deployed Site
 
 Visit us now at [EcomCats](https://paw-lease.azurewebsites.net/)
