@@ -24,7 +24,7 @@ We cherish our cats as much as we cherish our children. Therefore, our policy is
 
 # Deployed Site
 
-Visit us now at [EcomCats](https://ecomcats.azurewebsites.net/)
+Visit us now at [EcomCats](https://paw-lease.azurewebsites.net/)
 
 ## Contributing
 Rebecca Hong, Jimmy Nguyen
