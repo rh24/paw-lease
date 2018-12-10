@@ -42,8 +42,7 @@ namespace EcomProject_JimmyRebecca.Pages.Profile
                 Birthday = foundUser.Birthday
             };
 
-            var allFulFilledCarts = await _context.GetPastOrdersCarts();
-            var userCarts = allFulFilledCarts.Where(c => c.User.Id == foundUser.Id);
+            var userCarts = await _context.GetPastOrdersCarts(foundUser.Id);
 
             // Get last 5 carts
             if (userCarts.Count() >= 5)

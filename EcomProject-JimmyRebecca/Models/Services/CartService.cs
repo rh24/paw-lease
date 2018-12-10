@@ -60,5 +60,17 @@ namespace EcomProject_JimmyRebecca.Models.Services
                 .Where(c => c.LineItems.Count > 0 && c.OrderFulfilled == true)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Cart>> GetPastOrdersCarts(string userId)
+        {
+            // Includes the line items in the cart the includes the products within the line items
+            return await _context.Carts
+                .Include(c => c.LineItems)
+                .ThenInclude(li => li.Product)
+                .OrderByDescending(c => c.ID)
+                .Take(10)
+                .Where(c => c.LineItems.Count > 0 && c.OrderFulfilled == true && c.User.Id == userId)
+                .ToListAsync();
+        }
     }
 }
