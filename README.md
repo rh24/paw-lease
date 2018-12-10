@@ -30,6 +30,9 @@ We cherish our cats as much as we cherish our children. Therefore, our policy is
 * LineItem has one Product, has one Cart
 * Cart has many Products through LineItems (one Cart -> many LineItems <- one Product)
 
+# DB Schema Visual
+![DB Schema](Assets/dbschema.png)
+
 # Deployed Site
 
 Visit us now at [EcomCats](https://paw-lease.azurewebsites.net/)
