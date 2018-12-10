@@ -3,7 +3,6 @@ using EcomProject_JimmyRebecca.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
 
 namespace EcomProject_JimmyRebecca.Controllers
@@ -62,8 +61,9 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// </summary>
         /// <param name="userId">ApplicationUser's string ID</param>
         /// <returns></returns>
-        public async Task<IActionResult> Active(string userId)
+        public async Task<IActionResult> Active()
         {
+            var userId = _userManager.GetUserId(User);
             if (userId == null)
             {
                 return NotFound();
@@ -165,6 +165,7 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(cart);
         }
 
+        // GET: Carts/Delete/5
         /// <summary>
         /// Deletes the cart with the specific id
         /// </summary>
