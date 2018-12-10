@@ -25,14 +25,23 @@ namespace EcomProject_JimmyRebecca.Controllers
             _userManager = userManager;
         }
 
-        // GET: LineItems
+        /// <summary>
+        /// Returns all line items
+        /// </summary>
+        /// <returns>Line times view</returns>
         public async Task<IActionResult> Index()
         {
             var lineItems = await _context.GetLineItems();
             return View(lineItems);
         }
 
-        // POST: LineItems/Create
+        /// <summary>
+        /// Create a line item
+        /// </summary>
+        /// <param name="productId">the product id</param>
+        /// <param name="userId">the user id</param>
+        /// <param name="quantity">the quantity</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int productId, string userId, int quantity)
@@ -63,7 +72,12 @@ namespace EcomProject_JimmyRebecca.Controllers
             return RedirectToAction("Index", "Products");
         }
 
-        // POST: LineItems/Edit/5
+        /// <summary>
+        /// Updates the lineitem
+        /// </summary>
+        /// <param name="id">the id of the lineitem to update</param>
+        /// <param name="lineItem">the lineitem</param>
+        /// <returns>the view of the updated lineitem</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,ProductID,CartID,Quantity")] LineItem lineItem)
@@ -96,11 +110,21 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(lineItem);
         }
 
+        /// <summary>
+        /// checkts to see if lineitem exists
+        /// </summary>
+        /// <param name="id">the id of the line item</param>
+        /// <returns>If it exists or not</returns>
         private async Task<bool> LineItemExists(int id)
         {
             return await _context.GetLineItem(id) != null;
         }
 
+        /// <summary>
+        /// Deletes a specific line item
+        /// </summary>
+        /// <param name="id">the id of the specific line item to delete</param>
+        /// <returns>Returns to the carts view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -110,6 +134,11 @@ namespace EcomProject_JimmyRebecca.Controllers
             return RedirectToAction("Active", "Carts", new { userID = _userManager.GetUserId(User) });
         }
 
+        /// <summary>
+        /// Helper function to see if the items is 0
+        /// </summary>
+        /// <param name="lineItem">the lineitem</param>
+        /// <returns>Nothing</returns>
         private async Task CheckIfQuantityIsZero(LineItem lineItem)
         {
             if (lineItem.Quantity == 0)

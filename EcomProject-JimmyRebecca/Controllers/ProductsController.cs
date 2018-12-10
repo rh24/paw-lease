@@ -13,14 +13,20 @@ namespace EcomProject_JimmyRebecca.Controllers
             _context = context;
         }
 
-        // GET: Products
+        /// <summary>
+        /// Gets all of the products
+        /// </summary>
+        /// <returns>a view of all of the products</returns>
         public async Task<IActionResult> Index()
         {
             return View(await _context.GetProducts());
-            // Make view model containing products and cartid, line items
         }
 
-        // GET: Products/Details/5
+        /// <summary>
+        /// Gets a specific product with id
+        /// </summary>
+        /// <param name="id">the id of the product</param>
+        /// <returns>returns a view of that specific product</returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
