@@ -56,8 +56,9 @@ namespace EcomProject_JimmyRebecca.Controllers
         /// </summary>
         /// <param name="userId">ApplicationUser's string ID</param>
         /// <returns></returns>
-        public async Task<IActionResult> Active(string userId)
+        public async Task<IActionResult> Active()
         {
+            var userId = _userManager.GetUserId(User);
             if (userId == null)
             {
                 return NotFound();
