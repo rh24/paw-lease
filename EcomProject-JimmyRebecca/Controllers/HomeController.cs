@@ -8,6 +8,10 @@ namespace EcomProject_JimmyRebecca.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Returns the home page
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return View();
