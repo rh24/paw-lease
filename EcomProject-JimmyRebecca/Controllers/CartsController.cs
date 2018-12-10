@@ -151,7 +151,7 @@ namespace EcomProject_JimmyRebecca.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CartExists(cart.ID))
+                    if (_context.GetCart(id) == null)
                     {
                         return NotFound();
                     }
