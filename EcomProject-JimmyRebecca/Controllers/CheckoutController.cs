@@ -43,6 +43,11 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(order);
         }
 
+        /// <summary>
+        /// Processes the order
+        /// </summary>
+        /// <param name="cartId">Gets the cart id to process the order</param>
+        /// <returns>Returns the processed order view</returns>
         [HttpGet]
         public async Task<IActionResult> OrderProcessed(int cartId)
         {
@@ -54,22 +59,31 @@ namespace EcomProject_JimmyRebecca.Controllers
                 UserID = user.Id
             };
 
+            // creates a new cart for the user
             await _cart.CreateCart(newCart);
 
+            // fulfills the old cart
             var cart = await _cart.GetCart(cartId);
             cart.OrderFulfilled = true;
             await _cart.UpdateCart(cart);
 
+            // gets the total for the cart
             decimal cartTotal = lineItems.Sum(li => li.Product.SuggestedDonation * (int)li.Quantity);
 
+            // sends an email to confirm the order
             await _email.SendEmailAsync(user.Email, "Order Confirmation", CreateEmailString(lineItems, cartTotal));
 
             return View();
         }
 
+        /// <summary>
+        /// Checks out and sends to a page to capture user information
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Checkout()
         {
+            // creates a select list that contains fake credit card information
             var fakeCreditCardNumbers = new SelectList(
                 new List<SelectListItem>
                 {
@@ -86,6 +100,11 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Gets the receipt for the order
+        /// </summary>
+        /// <param name="order">Takes in an order model</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> PostReceipt(Order order)
         {
@@ -96,9 +115,17 @@ namespace EcomProject_JimmyRebecca.Controllers
             return RedirectToAction("Receipt", order);
         }
 
+        /// <summary>
+        /// creates the html for the email
+        /// </summary>
+        /// <param name="lineItems">the items in the cart</param>
+        /// <param name="total">the total for the receipt</param>
+        /// <returns>returns an string of html for the email</returns>
         private string CreateEmailString(IEnumerable<LineItem> lineItems, decimal total)
         {
             string email = $"<h2>Receipt for Order {lineItems.First().CartID}</h2>";
+
+            // adds onto the string for each item
             foreach (LineItem li in lineItems)
             {
                 email += $"<div><h5>{li.Product.ProductName}</h5><p> Price: {li.Product.SuggestedDonation}</p><p>Quantity: {(int)li.Quantity}</p></div>";

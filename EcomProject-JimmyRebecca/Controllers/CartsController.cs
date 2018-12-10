@@ -23,13 +23,20 @@ namespace EcomProject_JimmyRebecca.Controllers
             _signInManager = signInManager;
         }
 
-        // GET: Carts
+        /// <summary>
+        /// Gets the carts
+        /// </summary>
+        /// <returns>returns all carts</returns>
         public async Task<IActionResult> Index()
         {
             return View(await _context.GetCarts());
         }
 
-        // GET: Carts/Details/5
+        /// <summary>
+        /// Gets the details of the specific cart
+        /// </summary>
+        /// <param name="id">the id of the cart to get</param>
+        /// <returns>returns the details of that specific cart</returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,7 +56,6 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(cart);
         }
 
-        // GET: Carts/Active/{userId}
         /// <summary>
         /// This method views the user's current, unfulfilled cart by grabbing its user ID from the route.
         /// </summary>
@@ -74,13 +80,20 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View("Details", li);
         }
 
-        // GET: Carts/Create
+        /// <summary>
+        /// Returns the create view for carts
+        /// </summary>
+        /// <returns>The create view for carts</returns>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Carts/Create
+        /// <summary>
+        /// Creates the cart
+        /// </summary>
+        /// <param name="cart">the cart to create</param>
+        /// <returns>Returns a view of all carts</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,ApplicationUserID")] Cart cart)
@@ -94,7 +107,11 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(cart);
         }
 
-        // GET: Carts/Edit/5
+        /// <summary>
+        /// Edits a specific cart
+        /// </summary>
+        /// <param name="id">The id of the cart to edit</param>
+        /// <returns>Returns the view of the cart</returns>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -111,7 +128,12 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(cart);
         }
 
-        // POST: Carts/Edit/5
+        /// <summary>
+        /// Edits the actual cart
+        /// </summary>
+        /// <param name="id">id of cart to edit</param>
+        /// <param name="cart">The cart to update</param>
+        /// <returns>View of updated cart</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,ApplicationUserID")] Cart cart)
@@ -144,6 +166,11 @@ namespace EcomProject_JimmyRebecca.Controllers
         }
 
         // GET: Carts/Delete/5
+        /// <summary>
+        /// Deletes the cart with the specific id
+        /// </summary>
+        /// <param name="id">the id of the cart to delete</param>
+        /// <returns>returns a view</returns>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -161,7 +188,11 @@ namespace EcomProject_JimmyRebecca.Controllers
             return View(cart);
         }
 
-        // POST: Carts/Delete/5
+        /// <summary>
+        /// Does the actual delete
+        /// </summary>
+        /// <param name="id">id of cart to delete</param>
+        /// <returns>redirects to products</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
